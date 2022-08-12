@@ -1,10 +1,14 @@
 <?php
 
-use Core\Widget\AdminTable\AdminTable;
+define('APP_PATH', $_SERVER['DOCUMENT_ROOT']);
+
+use Core\Module\AdminTable\Repository\StabAdminTableRepository;
+use Core\Module\AdminTable\Widget\AdminTable;
 
 require __DIR__ . '/vendor/autoload.php';
 
-echo (new AdminTable())->render();
+$repository = new StabAdminTableRepository();
+echo (new AdminTable($repository->getColumns(), $repository->getRows()))->render();
 
 /*$test = new Test();
 $test->showOne();

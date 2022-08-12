@@ -1,19 +1,19 @@
 <?php
 
-namespace Core\Widget\AdminTable;
+namespace Core\Module\AdminTable\Widget;
 
-use Core\Widget\AdminTable\AdminTableCell\AbstractAdminTableCell;
-use Core\Widget\Renderable;
+use Core\Module\AdminTable\Widget\AdminTableCell\AbstractAdminTableCell;
+use Core\Renderable;
 
 class AdminTableRow implements Renderable
 {
     /**
-     * @var AbstractAdminTableCell[]
+     * @var array
      */
     private array $cells = [];
 
     /**
-     * @param AbstractAdminTableCell[] $cells
+     * @param array $cells
      */
     public function __construct(array $cells)
     {
@@ -25,7 +25,7 @@ class AdminTableRow implements Renderable
         if (!empty($this->cells)) {
             $cells_rendered = [];
             foreach ($this->cells as $cell) {
-                $cells_rendered[] = $cell->render();
+                $cells_rendered[] = $cell;
             }
             return "<tr><td>" . implode("</td><td>", $cells_rendered) . "</td></tr>";
         }

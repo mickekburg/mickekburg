@@ -1,8 +1,6 @@
 <?php
 
-namespace Core\BusinessLogic\Repository;
-
-use Core\Widget\AdminTable\AdminTableCell\AbstractAdminTableCell;
+namespace Core\Module\AdminTable\Repository;
 
 interface IAdminTableRepository
 {

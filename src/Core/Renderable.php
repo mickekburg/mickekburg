@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Widget;
+namespace Core;
 
 interface Renderable
 {

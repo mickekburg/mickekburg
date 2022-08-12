@@ -5,6 +5,17 @@
     <title>Title</title>
 </head>
 <body>
-    123456
+    <table>
+        <thead>
+            {% for column in columns %}
+                <th>{{ column['th'] }}</th>
+            {% endfor %}
+        </thead>
+        <tbody>
+            {% for row in rows %}
+                {{ row|raw }}
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>

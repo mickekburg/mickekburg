@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Widget;
+namespace Core;
 
 abstract class TwigRenderer
 {
@@ -9,19 +9,19 @@ abstract class TwigRenderer
     //TODO: вынести twig
     public function renderTwig(array $data): string
     {
-        $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/templates');
+        $loader = new \Twig\Loader\FilesystemLoader(APP_PATH . '/templates');
         $twig = new \Twig\Environment($loader, [
-            'cache' => __DIR__ . '/templates/compilation_cache',
+            'cache' => APP_PATH . '/templates/compilation_cache',
             'auto_reload' => true,
+            'debug' => true,
         ]);
-        try{
+        try {
             $twig_template = $twig->load($this->template);
             return $twig_template->render($data);
-        }
-        catch(\Exception){
+        } catch (\Exception) {
             return "";
         }
-
-
     }
+
+
 }

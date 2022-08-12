@@ -1,9 +1,9 @@
 <?php
 
-namespace Core\Widget\AdminTable;
+namespace Core\Module\AdminTable\Widget;
 
-use Core\Widget\Renderable;
-use Core\Widget\TwigRenderer;
+use Core\Renderable;
+use Core\TwigRenderer;
 
 class AdminTable extends TwigRenderer implements Renderable
 {
@@ -39,19 +39,18 @@ class AdminTable extends TwigRenderer implements Renderable
             $rows_rendered[] = $row->render();
         }
 
-        $rows_rendered = [];
+        $cols_rendered = [];
         foreach ($this->columns as $column) {
-            $dto = $column->getAdminTableColumnDTO();
-            $rows_rendered[] = [
-                'th' => $dto->getThCell(),
-                'filter' => $dto->getFilterCell(),
-                'order' => $dto->getOrderCell(),
+            $cols_rendered[] = [
+                'th' => $column->getThCell(),
+                'filter' => $column->getFilterCell(),
+                'order' => $column->getOrderCell(),
             ];
         }
 
         return $this->renderTwig([
             'rows' => $rows_rendered,
-            'columns' => $rows_rendered,
+            'columns' => $cols_rendered,
         ]);
     }
 
