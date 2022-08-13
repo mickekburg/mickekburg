@@ -1,9 +1,8 @@
 <?php
 
-namespace Core\Module\AdminTable\Widget;
+namespace Core\AdminTable\Widget;
 
-use Core\Module\AdminTable\Widget\AdminTableCell\AbstractAdminTableCell;
-use Core\Renderable;
+use Core\Framework\Renderable;
 
 class AdminTableRow implements Renderable
 {

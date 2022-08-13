@@ -1,9 +1,9 @@
 <?php
 
-namespace Core\Module\AdminTable\Widget;
+namespace Core\AdminTable\Widget;
 
-use Core\Renderable;
-use Core\TwigRenderer;
+use Core\Framework\Renderable;
+use Core\Framework\TwigRenderer;
 
 class AdminTable extends TwigRenderer implements Renderable
 {

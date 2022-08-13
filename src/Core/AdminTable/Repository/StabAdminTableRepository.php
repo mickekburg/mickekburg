@@ -1,12 +1,12 @@
 <?php
 
-namespace Core\Module\AdminTable\Repository;
+namespace Core\AdminTable\Repository;
 
-use Core\Module\AdminTable\DTO\AdminTableColumnDTO;
-use Core\Module\AdminTable\Widget\AdminTableCell\AdminTableCellBold;
-use Core\Module\AdminTable\Widget\AdminTableCell\AdminTableCellCommon;
-use Core\Module\AdminTable\Widget\AdminTableColumn;
-use Core\Module\AdminTable\Widget\AdminTableRow;
+use Core\AdminTable\DTO\AdminTableColumnDTO;
+use Core\AdminTable\Widget\AdminTableCell\AdminTableCellBold;
+use Core\AdminTable\Widget\AdminTableCell\AdminTableCellCommon;
+use Core\AdminTable\Widget\AdminTableColumn;
+use Core\AdminTable\Widget\AdminTableRow;
 
 class StabAdminTableRepository implements IAdminTableRepository
 {

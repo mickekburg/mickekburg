@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Module\AdminTable\Mapper;
+namespace Core\AdminTable\Mapper;
 
 class EntityToAdminTableCell
 {

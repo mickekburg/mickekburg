@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Module\AdminTable\Widget\AdminTableCell;
+namespace Core\AdminTable\Widget\AdminTableCell;
 
 class AdminTableCellBold extends AbstractAdminTableCell
 {

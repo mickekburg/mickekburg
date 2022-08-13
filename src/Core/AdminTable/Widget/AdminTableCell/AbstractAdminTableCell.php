@@ -1,8 +1,8 @@
 <?php
 
-namespace Core\Module\AdminTable\Widget\AdminTableCell;
+namespace Core\AdminTable\Widget\AdminTableCell;
 
-class AbstractAdminTableCell implements \Core\Renderable
+class AbstractAdminTableCell implements \Core\Framework\Renderable
 {
 
     protected string $content;
