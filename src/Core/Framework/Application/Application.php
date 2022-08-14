@@ -2,7 +2,9 @@
 
 namespace Core\Framework\Application;
 
+use Core\Framework\Application\Controller\BaseAdminController;
 use Core\Framework\Application\Exception\Error404;
+use Core\Framework\Application\ModuleInfo\ModuleInfo;
 use Core\Framework\Application\Router\RouterFactory;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -10,6 +12,10 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class Application
 {
@@ -24,7 +30,7 @@ class Application
     public static function i()
     {
         if (self::$instance === null) {
-            self::$time = time();
+            self::$time = microtime(true);
             self::$instance = new static();
         }
         return self::$instance;
@@ -45,16 +51,20 @@ class Application
         return self::$twig;
     }
 
-    public function getModuleInfo(string $module_name): ?BaseAdminController
+    public function getWorkTime(): float
     {
-        $class_name = MODULE_PREFIX . "\\" . ucfirst($module_name) . "\\AdminController";
-        return self::$modules[ucfirst($module_name)] ? new $class_name() : null;
+        return microtime(true) - self::$time;
+    }
+
+    public function getModuleInfo(string $module_name): ?ModuleInfo
+    {
+        return self::$modules[ucfirst($module_name)] ?? null;
     }
 
     public function run()
     {
         self::$di_container = new ContainerBuilder();
-        $loader = new XmlFileLoader(self::$di_container, new FileLocator(DI_PATH));
+        $loader = new XmlFileLoader(self::$di_container, new FileLocator(APP_PATH . "/src/Config"));
         try {
             $loader->load("Services.xml");
         } catch (\Exception $exception) {
@@ -63,11 +73,15 @@ class Application
 
         $twig_loader = new \Twig\Loader\FilesystemLoader(TEMPLATE_PATH);
         self::$twig = new \Twig\Environment($twig_loader, [
-            'cache' => TEMPLATE_CACHE,
+            'cache' => TEMPLATE_PATH . "/cache",
             'auto_reload' => TEMPLATE_RELOAD,
         ]);
 
-        $this->initModules();
+        if (IS_REDIS) {
+            self::$modules = $this->initModulesCache();
+        } else {
+            self::$modules = $this->initModules();
+        }
 
         $session = new Session();
         $session->start();
@@ -82,14 +96,42 @@ class Application
         }
     }
 
-    private function initModules()
+
+    private function initModules(): array
     {
+        $encoders = [new XmlEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $modules = [];
         $finder = new Finder();
-        $finder->directories()->in(MODULE_PATH)->depth('== 0');
+        $finder->directories()->in(APP_PATH . "/src/Module")->depth('== 0');
         if ($finder->hasResults()) {
             foreach ($finder as $module_directory) {
-                self::$modules[$module_directory->getRelativePathname()] = $module_directory->getRealPath();
+                $config_default_file = $module_directory->getRealPath() . "/Config/Config.default.xml";
+                $config_file = $module_directory->getRealPath() . "/Config/Config.xml";
+                if (file_exists($config_default_file) && !file_exists($config_file)) {
+                    copy($config_default_file, $config_file);
+                }
+
+                if (file_exists($config_file)) {
+                    $module_info = $serializer->deserialize(file_get_contents($config_file), ModuleInfo::class, 'xml');
+                    $module_info->init();
+                    $modules[$module_directory->getRelativePathname()] = $module_info;
+                }
             }
         }
+
+        return $modules;
+    }
+
+    //TODO: redis кэширование конфига
+    private function initModulesCache(): array
+    {
+        $cache = self::getFromDIContainer("cache");
+        return $cache->get('modules_cache', function (ItemInterface $item) {
+            $item->expiresAfter(3600);
+            return $this->initModules();
+        });
     }
 }

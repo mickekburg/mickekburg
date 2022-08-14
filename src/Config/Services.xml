@@ -9,6 +9,9 @@
     </parameters>
 
     <services>
+        <service id="cache" class="Symfony\Component\Cache\Adapter\FilesystemAdapter">
+        </service>
+
         <service id="mailer" class="Mailer">
             <argument>%mailer.transport%</argument>
         </service>

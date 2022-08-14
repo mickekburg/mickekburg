@@ -4,6 +4,8 @@ namespace Core\Framework\Application\Router;
 
 use Core\Framework\Application\Application;
 use Core\Framework\Application\Exception\Error404;
+use Core\Framework\Application\ModuleInfo\ModuleInfo;
+use PhpParser\Node\Expr\AssignOp\Mod;
 
 class AdminRouter implements Router
 {
@@ -27,7 +29,11 @@ class AdminRouter implements Router
     public function runController(): void
     {
         $controller_name = empty($this->uri[0]) ? DEFAULT_ADMIN_CONTROLLER : $this->uri[0];
-        $controller = Application::i()->getModuleInfo($controller_name);
+        /**
+         * @var ModuleInfo
+         */
+        $module_info = Application::i()->getModuleInfo($controller_name);
+        $controller = $module_info->getAdminController();
         $action_name = empty($this->uri[1]) ? "actionIndex" : "action".ucfirst($this->uri[1]);
         if(method_exists($controller, $action_name)){
             $params = array_slice($this->uri, 2);

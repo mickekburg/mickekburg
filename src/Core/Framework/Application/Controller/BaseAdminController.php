@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Framework\Application;
+namespace Core\Framework\Application\Controller;
 
 class BaseAdminController
 {
