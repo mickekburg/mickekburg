@@ -2,9 +2,8 @@
 
 namespace Core\Framework\Application;
 
-use Core\Framework\Application\Controller\BaseAdminController;
 use Core\Framework\Application\Exception\Error404;
-use Core\Framework\Application\ModuleInfo\ModuleInfo;
+use Core\Framework\Application\ModuleInfo\DTO\ModuleInfoDTO;
 use Core\Framework\Application\Router\RouterFactory;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -56,7 +55,7 @@ class Application
         return microtime(true) - self::$time;
     }
 
-    public function getModuleInfo(string $module_name): ?ModuleInfo
+    public function getModuleInfo(string $module_name): ?ModuleInfoDTO
     {
         return self::$modules[ucfirst($module_name)] ?? null;
     }
@@ -115,7 +114,7 @@ class Application
                 }
 
                 if (file_exists($config_file)) {
-                    $module_info = $serializer->deserialize(file_get_contents($config_file), ModuleInfo::class, 'xml');
+                    $module_info = $serializer->deserialize(file_get_contents($config_file), ModuleInfoDTO::class, 'xml');
                     $module_info->init();
                     $modules[$module_directory->getRelativePathname()] = $module_info;
                 }
