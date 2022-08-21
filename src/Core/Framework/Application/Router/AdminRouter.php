@@ -2,10 +2,9 @@
 
 namespace Core\Framework\Application\Router;
 
-use Core\Framework\Application\Application;
+use Application;
 use Core\Framework\Application\Exception\Error404;
 use Core\Framework\Application\ModuleInfo\ModuleInfo;
-use PhpParser\Node\Expr\AssignOp\Mod;
 
 class AdminRouter implements Router
 {

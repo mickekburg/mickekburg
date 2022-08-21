@@ -11,22 +11,11 @@ class ModuleInfoDTO
      * @var ModuleInfoTabDTO[]
      */
     protected array $tabs = [];
-    protected array $fieldsTds = [];
+    protected array $fields_tds = [];
     protected array $settings = [];
     protected string $actions = "";
     protected array $fields_group = [];
 
-    public function __construct(string $module_name, string $literal_name, string $default_order, array $tabs, array $fieldsTds, array $settings, string $actions, array $fields_group)
-    {
-        $this->module_name = $module_name;
-        $this->literal_name = $literal_name;
-        $this->default_order = $default_order;
-        $this->tabs = $tabs;
-        $this->fieldsTds = $fieldsTds;
-        $this->settings = $settings;
-        $this->actions = $actions;
-        $this->fields_group = $fields_group;
-    }
 
     /**
      * @return string
@@ -38,10 +27,12 @@ class ModuleInfoDTO
 
     /**
      * @param string $module_name
+     * @return ModuleInfoDTO
      */
-    public function setModuleName(string $module_name): void
+    public function setModuleName(string $module_name): ModuleInfoDTO
     {
         $this->module_name = $module_name;
+        return $this;
     }
 
     /**
@@ -54,10 +45,12 @@ class ModuleInfoDTO
 
     /**
      * @param string $literal_name
+     * @return ModuleInfoDTO
      */
-    public function setLiteralName(string $literal_name): void
+    public function setLiteralName(string $literal_name): ModuleInfoDTO
     {
         $this->literal_name = $literal_name;
+        return $this;
     }
 
     /**
@@ -70,10 +63,12 @@ class ModuleInfoDTO
 
     /**
      * @param string $default_order
+     * @return ModuleInfoDTO
      */
-    public function setDefaultOrder(string $default_order): void
+    public function setDefaultOrder(string $default_order): ModuleInfoDTO
     {
         $this->default_order = $default_order;
+        return $this;
     }
 
     /**
@@ -85,28 +80,16 @@ class ModuleInfoDTO
     }
 
     /**
-     * @param ModuleInfoTabDTO[] $tabs
+     * @param array $tabs
+     * @return ModuleInfoDTO
      */
-    public function setTabs(array $tabs): void
+    public function setTabs(array $tabs): ModuleInfoDTO
     {
         $this->tabs = $tabs;
+        return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getFieldsTds(): array
-    {
-        return $this->fieldsTds;
-    }
 
-    /**
-     * @param array $fieldsTds
-     */
-    public function setFieldsTds(array $fieldsTds): void
-    {
-        $this->fieldsTds = $fieldsTds;
-    }
 
     /**
      * @return array
@@ -118,10 +101,12 @@ class ModuleInfoDTO
 
     /**
      * @param array $settings
+     * @return ModuleInfoDTO
      */
-    public function setSettings(array $settings): void
+    public function setSettings(array $settings): ModuleInfoDTO
     {
         $this->settings = $settings;
+        return $this;
     }
 
     /**
@@ -134,10 +119,12 @@ class ModuleInfoDTO
 
     /**
      * @param string $actions
+     * @return $this
      */
-    public function setActions(string $actions): void
+    public function setActions(string $actions): ModuleInfoDTO
     {
         $this->actions = $actions;
+        return $this;
     }
 
     /**
@@ -150,10 +137,30 @@ class ModuleInfoDTO
 
     /**
      * @param array $fields_group
+     * @return ModuleInfoDTO
      */
-    public function setFieldsGroup(array $fields_group): void
+    public function setFieldsGroup(array $fields_group): ModuleInfoDTO
     {
         $this->fields_group = $fields_group;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFieldsTds(): array
+    {
+        return $this->fields_tds;
+    }
+
+    /**
+     * @param array $fields_tds
+     * @return ModuleInfoDTO
+     */
+    public function setFieldsTds(array $fields_tds): ModuleInfoDTO
+    {
+        $this->fields_tds = $fields_tds;
+        return $this;
     }
 
 

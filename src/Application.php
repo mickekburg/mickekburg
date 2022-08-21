@@ -1,9 +1,10 @@
 <?php
 
-namespace Core\Framework\Application;
 
 use Core\Framework\Application\Exception\Error404;
 use Core\Framework\Application\ModuleInfo\DTO\ModuleInfoDTO;
+use Core\Framework\Application\ModuleInfo\Mapper\iModuleInfoDTOSerializer;
+use Core\Framework\Application\ModuleInfo\ModuleInfo;
 use Core\Framework\Application\Router\RouterFactory;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -11,9 +12,6 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Contracts\Cache\ItemInterface;
 
 class Application
@@ -98,11 +96,12 @@ class Application
 
     private function initModules(): array
     {
-        $encoders = [new XmlEncoder()];
-        $normalizers = [new ObjectNormalizer()];
-        $serializer = new Serializer($normalizers, $encoders);
-
         $modules = [];
+
+        /**
+         * @var iModuleInfoDTOSerializer
+         */
+        $module_info_serializer = self::getFromDIContainer("module_info_serializer");
         $finder = new Finder();
         $finder->directories()->in(APP_PATH . "/src/Module")->depth('== 0');
         if ($finder->hasResults()) {
@@ -114,9 +113,11 @@ class Application
                 }
 
                 if (file_exists($config_file)) {
-                    $module_info = $serializer->deserialize(file_get_contents($config_file), ModuleInfoDTO::class, 'xml');
-                    $module_info->init();
-                    $modules[$module_directory->getRelativePathname()] = $module_info;
+                    /**
+                     * @var ModuleInfoDTO
+                     */
+                    $module_info_dto = $module_info_serializer->getSerializer()->deserialize(file_get_contents($config_file), ModuleInfoDTO::class, 'xml');
+                    $modules[$module_directory->getRelativePathname()] = new ModuleInfo($module_info_dto);
                 }
             }
         }

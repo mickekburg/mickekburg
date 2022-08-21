@@ -4,17 +4,11 @@ namespace Core\Framework\Application\ModuleInfo\DTO;
 
 class ModuleInfoTabDTO
 {
-    protected string $name;
+    protected string $name = "";
     /**
      * @var ModuleFieldDTO[]
      */
     protected array $fields = [];
-
-    public function __construct(string $name, array $fields)
-    {
-        $this->name = $name;
-        $this->fields = $fields;
-    }
 
     /**
      * @return string
@@ -26,10 +20,12 @@ class ModuleInfoTabDTO
 
     /**
      * @param string $name
+     * @return ModuleInfoTabDTO
      */
-    public function setName(string $name): void
+    public function setName(string $name): ModuleInfoTabDTO
     {
         $this->name = $name;
+        return $this;
     }
 
     /**
@@ -42,10 +38,12 @@ class ModuleInfoTabDTO
 
     /**
      * @param array $fields
+     * @return ModuleInfoTabDTO
      */
-    public function setFields(array $fields): void
+    public function setFields(array $fields): ModuleInfoTabDTO
     {
         $this->fields = $fields;
+        return $this;
     }
 
 }

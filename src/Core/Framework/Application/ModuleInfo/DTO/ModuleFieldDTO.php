@@ -4,20 +4,22 @@ namespace Core\Framework\Application\ModuleInfo\DTO;
 
 class ModuleFieldDTO
 {
-    protected string $name;
-    protected string $title;
-    protected string $type;
-    protected bool $is_active;
-    protected array $values;
-    protected string $default_value;
-    protected string $method;
+    protected string $name = "";
+    protected string $title = "";
+    protected string $type = "";
+    protected bool $is_active = false;
+    protected bool $is_required = false;
+    protected array $values = [];
+    protected string $default_value = "";
+    protected string $method = self::TYPE_NONE;
 
+    public const TYPE_NONE = 'none';
     public const TYPE_TEXT = 'text';
     public const TYPE_TEXTAREA = 'textarea';
     public const TYPE_URL = 'url';
     public const TYPE_SELECT = 'select';
     public const TYPE_CHECKBOX = 'checkbox';
-    public const TYPE_YESNO = 'yesno';
+    public const TYPE_YES_NO = 'yesno';
     public const TYPE_DATE = 'date';
     public const TYPE_DATETIME = 'datetime';
     public const TYPE_PID = 'pid';
@@ -29,17 +31,6 @@ class ModuleFieldDTO
     public const METHOD_SEARCH = 'search';
     public const METHOD_TAGS = 'tags';
 
-    public function __construct(string $name, string $title, string $type, bool $is_active = false, string $values = "", string $default_value = "", string $method = "")
-    {
-        $this->setName($name);
-        $this->setTitle($title);
-        $this->setType($type);
-        $this->setIsActive($is_active);
-        $this->setValues($values);
-        $this->setDefaultValue($default_value);
-        $this->setMethod($method);
-    }
-
     /**
      * @return string
      */
@@ -50,10 +41,12 @@ class ModuleFieldDTO
 
     /**
      * @param string $name
+     * @return ModuleFieldDTO
      */
-    public function setName(string $name): void
+    public function setName(string $name): ModuleFieldDTO
     {
         $this->name = $name;
+        return $this;
     }
 
     /**
@@ -66,10 +59,12 @@ class ModuleFieldDTO
 
     /**
      * @param string $title
+     * @return ModuleFieldDTO
      */
-    public function setTitle(string $title): void
+    public function setTitle(string $title): ModuleFieldDTO
     {
         $this->title = $title;
+        return $this;
     }
 
     /**
@@ -82,8 +77,9 @@ class ModuleFieldDTO
 
     /**
      * @param string $type
+     * @return ModuleFieldDTO
      */
-    public function setType(string $type): void
+    public function setType(string $type): ModuleFieldDTO
     {
         if (!in_array($type, [
             self::TYPE_TEXT,
@@ -91,7 +87,7 @@ class ModuleFieldDTO
             self::TYPE_URL,
             self::TYPE_SELECT,
             self::TYPE_CHECKBOX,
-            self::TYPE_YESNO,
+            self::TYPE_YES_NO,
             self::TYPE_DATE,
             self::TYPE_DATETIME,
             self::TYPE_PID,
@@ -99,10 +95,11 @@ class ModuleFieldDTO
             self::TYPE_FILE,
             self::TYPE_GALLERY,
         ])) {
-            $this->type = self::TYPE_TEXT;
+            $this->type = self::TYPE_NONE;
         } else {
             $this->type = $type;
         }
+        return $this;
     }
 
     /**
@@ -115,10 +112,12 @@ class ModuleFieldDTO
 
     /**
      * @param bool $is_active
+     * @return ModuleFieldDTO
      */
-    public function setIsActive(bool $is_active): void
+    public function setIsActive(bool $is_active): ModuleFieldDTO
     {
         $this->is_active = $is_active;
+        return $this;
     }
 
     /**
@@ -131,10 +130,12 @@ class ModuleFieldDTO
 
     /**
      * @param array $values
+     * @return ModuleFieldDTO
      */
-    public function setValues(array $values): void
+    public function setValues(array $values): ModuleFieldDTO
     {
         $this->values = $values;
+        return $this;
     }
 
     /**
@@ -147,10 +148,12 @@ class ModuleFieldDTO
 
     /**
      * @param string $default_value
+     * @return ModuleFieldDTO
      */
-    public function setDefaultValue(string $default_value): void
+    public function setDefaultValue(string $default_value): ModuleFieldDTO
     {
         $this->default_value = $default_value;
+        return $this;
     }
 
     /**
@@ -163,8 +166,9 @@ class ModuleFieldDTO
 
     /**
      * @param string $method
+     * @return ModuleFieldDTO
      */
-    public function setMethod(string $method): void
+    public function setMethod(string $method): ModuleFieldDTO
     {
         if (!in_array($method, [
             self::METHOD_FUNCTION,
@@ -175,6 +179,25 @@ class ModuleFieldDTO
         } else {
             $this->method = $method;
         }
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsRequired(): bool
+    {
+        return $this->is_required;
+    }
+
+    /**
+     * @param bool $is_required
+     * @return $this
+     */
+    public function setIsRequired(bool $is_required): ModuleFieldDTO
+    {
+        $this->is_required = $is_required;
+        return $this;
     }
 
 
