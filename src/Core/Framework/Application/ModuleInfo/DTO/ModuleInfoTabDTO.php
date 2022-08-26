@@ -4,7 +4,8 @@ namespace Core\Framework\Application\ModuleInfo\DTO;
 
 class ModuleInfoTabDTO
 {
-    protected string $name = "";
+    protected string $title = "";
+    protected string $action = "";
     /**
      * @var ModuleFieldDTO[]
      */
@@ -13,18 +14,18 @@ class ModuleInfoTabDTO
     /**
      * @return string
      */
-    public function getName(): string
+    public function getTitle(): string
     {
-        return $this->name;
+        return $this->title;
     }
 
     /**
-     * @param string $name
+     * @param string $title
      * @return ModuleInfoTabDTO
      */
-    public function setName(string $name): ModuleInfoTabDTO
+    public function setName(string $title): ModuleInfoTabDTO
     {
-        $this->name = $name;
+        $this->title = $title;
         return $this;
     }
 
@@ -43,6 +44,24 @@ class ModuleInfoTabDTO
     public function setFields(array $fields): ModuleInfoTabDTO
     {
         $this->fields = $fields;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAction(): string
+    {
+        return $this->action;
+    }
+
+    /**
+     * @param string $action
+     * @return ModuleInfoTabDTO
+     */
+    public function setAction(string $action): ModuleInfoTabDTO
+    {
+        $this->action = $action;
         return $this;
     }
 

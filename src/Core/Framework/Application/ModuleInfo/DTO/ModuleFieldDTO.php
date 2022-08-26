@@ -31,6 +31,8 @@ class ModuleFieldDTO
     public const METHOD_SEARCH = 'search';
     public const METHOD_TAGS = 'tags';
 
+    public const DATE_NOW = 'NOW';
+
     /**
      * @return string
      */

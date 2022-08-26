@@ -11,6 +11,9 @@ class ModuleInfoDTO
      * @var ModuleInfoTabDTO[]
      */
     protected array $tabs = [];
+    /**
+     * @var ModuleTableTdDTO[]
+     */
     protected array $fields_tds = [];
     protected array $settings = [];
     protected string $actions = "";
