@@ -5,7 +5,10 @@
     "autoload": {
         "psr-4": {
             "": "src/"
-        }
+        },
+        "files": [
+            "src/Config/Helpers.php"
+        ]
     },
     "authors": [
         {
@@ -29,6 +32,7 @@
         "symfony/serializer": "^6.1",
         "symfony/property-access": "^6.1",
         "symfony/property-info": "^6.1",
-        "filp/whoops": "^2.14"
+        "filp/whoops": "^2.14",
+        "phpdocumentor/reflection-docblock": "^5.3"
     }
 }

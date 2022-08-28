@@ -9,9 +9,9 @@ abstract class TwigRenderer
     //TODO: вынести twig
     public function renderTwig(array $data): string
     {
-        $loader = new \Twig\Loader\FilesystemLoader(APP_PATH . '/templates');
+        $loader = new \Twig\Loader\FilesystemLoader(APP_PATH . '/Templates');
         $twig = new \Twig\Environment($loader, [
-            'cache' => APP_PATH . '/templates/compilation_cache',
+            'cache' => APP_PATH . '/Templates/compilation_cache',
             'auto_reload' => true,
             'debug' => true,
         ]);

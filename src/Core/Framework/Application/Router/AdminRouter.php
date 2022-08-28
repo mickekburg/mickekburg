@@ -7,8 +7,11 @@ use Core\Framework\Application\Auth\DTO\ActionDTO;
 use Core\Framework\Application\Auth\IAuth;
 use Core\Framework\Application\Controller\BaseAdminController;
 use Core\Framework\Application\Exception\Error404;
+use Core\Framework\Application\Helper\UrlHelper;
 use Core\Framework\Application\ModuleInfo\ModuleInfo;
 use ReflectionMethod;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class AdminRouter implements Router
 {
@@ -45,7 +48,9 @@ class AdminRouter implements Router
          */
         $controller = $module_info->getAdminController();
         if ($controller->isNeedAuth() && !$this->auth->isAuth()) {
-            throw new Error404();
+            $response = new RedirectResponse(UrlHelper::siteUrl(ADMIN_PATH . '/login') . '?login_url=' . urlencode(\Application::i()->getRequest()->getPathInfo()));
+            $response->send();
+            return;
         }
         $action_name = empty($this->uri[1]) ? "actionIndex" : "action" . ucfirst($this->uri[1]);
         if (!$this->auth->canAccess($module_info, new ActionDTO($action_name))) {
@@ -55,7 +60,9 @@ class AdminRouter implements Router
             $params = array_slice($this->uri, 2);
             $call = new ReflectionMethod(get_class($controller), $action_name);
             if (count($params) >= $call->getNumberOfRequiredParameters() && count($params) <= $call->getNumberOfParameters()) {
-                $call->invokeArgs($controller, $params);
+                $html = $call->invokeArgs($controller, $params);
+                $response = new Response($html);
+                $response->send();
                 return;
             }
         }

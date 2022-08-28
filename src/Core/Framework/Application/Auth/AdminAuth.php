@@ -11,7 +11,7 @@ class AdminAuth implements IAuth
     public function isAuth(): bool
     {
         // TODO: Implement isAuth() method.
-        return true;
+        return false;
     }
 
     public function canAccess(ModuleInfo $module, ActionDTO $action): bool
