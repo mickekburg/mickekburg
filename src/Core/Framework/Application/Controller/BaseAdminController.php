@@ -2,8 +2,13 @@
 
 namespace Core\Framework\Application\Controller;
 
-class BaseAdminController
+abstract class BaseAdminController
 {
+    public function isNeedAuth(): bool
+    {
+        return true;
+    }
+
     public function actionIndex()
     {
         echo "index";

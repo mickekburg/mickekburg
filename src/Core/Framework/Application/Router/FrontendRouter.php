@@ -2,19 +2,23 @@
 
 namespace Core\Framework\Application\Router;
 
+use Core\Framework\Application\Auth\IAuth;
+
 class FrontendRouter implements Router
 {
     /**
      * @var string[]
      */
     protected array $uri = [];
+    protected IAuth $auth;
 
     /**
      * @param string[] $uri
      */
-    public function __construct(array $uri)
+    public function __construct(array $uri, IAuth $auth)
     {
         $this->uri = $uri;
+        $this->auth = $auth;
     }
 
     public function runController(): void
