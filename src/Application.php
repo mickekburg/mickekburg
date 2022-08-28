@@ -3,6 +3,7 @@
 
 use Core\Framework\Application\Exception\Error404;
 use Core\Framework\Application\ModuleInfo\DTO\ModuleInfoDTO;
+use Core\Framework\Application\ModuleInfo\Factory\IConfigCreator;
 use Core\Framework\Application\ModuleInfo\Mapper\iModuleInfoDTOSerializer;
 use Core\Framework\Application\ModuleInfo\ModuleInfo;
 use Core\Framework\Application\Router\RouterFactory;
@@ -53,13 +54,19 @@ class Application
         return microtime(true) - self::$time;
     }
 
-    public function getModuleInfo(string $module_name): ?ModuleInfoDTO
+    public function getModuleInfo(string $module_name): ?ModuleInfo
     {
         return self::$modules[ucfirst($module_name)] ?? null;
     }
 
     public function run()
     {
+        if (ENVIRONMENT == 'development') {
+            $whoops = new \Whoops\Run;
+            $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+            $whoops->register();
+        }
+
         self::$di_container = new ContainerBuilder();
         $loader = new XmlFileLoader(self::$di_container, new FileLocator(APP_PATH . "/src/Config"));
         try {
@@ -106,10 +113,17 @@ class Application
         $finder->directories()->in(APP_PATH . "/src/Module")->depth('== 0');
         if ($finder->hasResults()) {
             foreach ($finder as $module_directory) {
-                $config_default_file = $module_directory->getRealPath() . "/Config/Config.default.xml";
                 $config_file = $module_directory->getRealPath() . "/Config/Config.xml";
-                if (file_exists($config_default_file) && !file_exists($config_file)) {
-                    copy($config_default_file, $config_file);
+
+                if (!file_exists($config_file)) {
+                    $config_creator_file = $module_directory->getRealPath() . "/Config/ConfigCreator.php";
+                    if (file_exists($config_creator_file)) {
+                        $config_creator_name = "Module\\" . $module_directory->getBasename() . "\\Config\ConfigCreator";
+                        $config_creator = new $config_creator_name();
+                        if ($config_creator instanceof IConfigCreator) {
+                            file_put_contents($config_file, $config_creator->createConfig());
+                        }
+                    }
                 }
 
                 if (file_exists($config_file)) {

@@ -9,7 +9,7 @@ class BaseAdminController
         echo "index";
     }
 
-    public function actionShow($page_num)
+    public function actionShow($page_num = 1)
     {
         echo "show " . $page_num;
     }
