@@ -1,6 +1,5 @@
 <?php
 
-
 use Core\Framework\Exception\Error404;
 use Core\Framework\ModuleInfo\DTO\ModuleInfoDTO;
 use Core\Framework\ModuleInfo\Factory\IConfigCreator;
@@ -13,7 +12,10 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Translation\Loader\YamlFileLoader;
 use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Component\Translation\Translator;
+
 
 class Application
 {
@@ -24,6 +26,7 @@ class Application
     private static ContainerBuilder $di_container;
     private static Request $request;
     private static array $modules = [];
+    private static Translator $translator;
 
     public static function i()
     {
@@ -75,11 +78,17 @@ class Application
             exit("Services.xml not found");
         }
 
+        self::$translator = new Translator('ru_Ru');
+        self::$translator->addLoader('yaml', new YamlFileLoader());
+        self::$translator->addResource('yaml', APP_PATH . '/src/Language/translate.ru.yaml', 'ru_Ru');
+
         $twig_loader = new \Twig\Loader\FilesystemLoader(TEMPLATE_PATH);
         self::$twig = new \Twig\Environment($twig_loader, [
             'cache' => TEMPLATE_PATH . "/cache",
             'auto_reload' => TEMPLATE_RELOAD,
         ]);
+        self::$twig->addExtension(new \Symfony\Bridge\Twig\Extension\TranslationExtension(self::$translator));
+
 
         if (IS_REDIS) {
             self::$modules = $this->initModulesCache();
