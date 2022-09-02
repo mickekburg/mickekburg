@@ -8,6 +8,7 @@ const ADMIN_PATH = "admin";
 const LOGIN_PATH = "login";
 const TEMPLATE_PATH = APP_PATH . "/Templates";
 const IS_REDIS = false;
+const LOCALE = 'ru_RU';
 
 switch (ENVIRONMENT) {
     case 'development':

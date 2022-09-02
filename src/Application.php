@@ -70,6 +70,10 @@ class Application
             $whoops->register();
         }
 
+        $session = new Session();
+        $session->start();
+        self::$request = Request::createFromGlobals();
+
         self::$di_container = new ContainerBuilder();
         $loader = new XmlFileLoader(self::$di_container, new FileLocator(APP_PATH . "/src/Config"));
         try {
@@ -78,9 +82,10 @@ class Application
             exit("Services.xml not found");
         }
 
-        self::$translator = new Translator('ru_Ru');
+        $locale = $session->get('Language', LOCALE);
+        self::$translator = new Translator($locale);
         self::$translator->addLoader('yaml', new YamlFileLoader());
-        self::$translator->addResource('yaml', APP_PATH . '/src/Language/translate.ru.yaml', 'ru_Ru');
+        self::$translator->addResource('yaml', APP_PATH . '/src/Language/translate.' . $locale . '.yaml', $locale);
 
         $twig_loader = new \Twig\Loader\FilesystemLoader(TEMPLATE_PATH);
         self::$twig = new \Twig\Environment($twig_loader, [
@@ -96,10 +101,6 @@ class Application
             self::$modules = $this->initModules();
         }
 
-        $session = new Session();
-        $session->start();
-
-        self::$request = Request::createFromGlobals();
         self::$router = RouterFactory::factory(self::$request);
 
         try {

@@ -48,7 +48,7 @@ class AdminRouter implements Router
          */
         $controller = $module_info->getAdminController();
         if ($controller->isNeedAuth() && !$this->auth->isAuth()) {
-            $response = new RedirectResponse(UrlHelper::siteUrl(ADMIN_PATH . '/login') . '?login_url=' . urlencode(\Application::i()->getRequest()->getPathInfo()));
+            $response = new RedirectResponse(UrlHelper::siteUrl(ADMIN_PATH . '/' . LOGIN_PATH) . '?login_url=' . urlencode(\Application::i()->getRequest()->getPathInfo()));
             $response->send();
             return;
         }
