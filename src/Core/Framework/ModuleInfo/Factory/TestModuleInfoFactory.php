@@ -1,6 +1,6 @@
 <?php
 
-namespace Module\Test\Config;
+namespace Core\Framework\ModuleInfo\Factory;
 
 use Core\Framework\ModuleInfo\DTO\ModuleFieldDTO;
 use Core\Framework\ModuleInfo\DTO\ModuleInfoDTO;
@@ -8,13 +8,10 @@ use Core\Framework\ModuleInfo\DTO\ModuleInfoTabDTO;
 use Core\Framework\ModuleInfo\DTO\ModuleSettingsDTO;
 use Core\Framework\ModuleInfo\DTO\ModuleTableActionDTO;
 use Core\Framework\ModuleInfo\DTO\ModuleTableTdDTO;
-use Core\Framework\ModuleInfo\Factory\IConfigCreator;
-use Core\Framework\ModuleInfo\Mapper\iModuleInfoDTOSerializer;
 
-class ConfigCreator implements IConfigCreator
+class TestModuleInfoFactory
 {
-
-    public function createConfig(): string
+    public static function getObject(): ModuleInfoDTO
     {
         $tabs = [];
         $fields = [];
@@ -213,11 +210,6 @@ class ConfigCreator implements IConfigCreator
             ->setOnPage(20)
             ->setIsGroup(true);
 
-        /**
-         * @var iModuleInfoDTOSerializer
-         */
-        $serializer = \Application::i()->getFromDIContainer("module_info_serializer");
-
-        return $serializer->getSerializer()->serialize($module, 'xml', ['xml_format_output' => true,]);
+        return $module;
     }
 }

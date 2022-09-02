@@ -2,16 +2,16 @@
 
 namespace Module\Login;
 
-use Core\Framework\Application\Controller\BaseAdminController;
-use Core\Framework\Application\Template\Template;
+use Core\Framework\Controller\BaseAdminController;
+use Core\Framework\Template\Dictionary\TemplateRegionDictionary;
+use Core\Framework\Template\Factory\TemplateFactory;
 
 class AdminController extends BaseAdminController
 {
-    protected string $base_template = 'admin/login.html.twig';
-
     protected function initTemplate(): void
     {
-        $this->template = new Template($this->base_template);
+        $this->template = TemplateFactory::getTemplate(TemplateFactory::ADMIN_LOGIN);
+        $this->template->writeRegion(TemplateRegionDictionary::META_TITLE, "Система администрирования сайта");
     }
 
     public function isNeedAuth(): bool

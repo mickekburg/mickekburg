@@ -11,7 +11,11 @@
     <services>
         <service id="cache" class="Symfony\Component\Cache\Adapter\FilesystemAdapter">
         </service>
-        <service id="module_info_serializer" class="\Core\Framework\Application\ModuleInfo\Mapper\PhpDocModuleInfoDTOSerializer">
+        <service id="module_info_serializer" class="\Core\Framework\ModuleInfo\Mapper\PhpDocModuleInfoDTOSerializer">
+        </service>
+        <service id="js_mapper" class="\Core\Framework\Template\Mapper\SimpleJsCompressMapper">
+        </service>
+        <service id="css_mapper" class="\Core\Framework\Template\Mapper\SimpleCssCompressMapper">
         </service>
     </services>
 </container>

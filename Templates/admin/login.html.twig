@@ -5,48 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Система администрирования сайта</title>
-
-    <link rel="stylesheet" href="/css/bootstrap.css" >
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/jquery-ui.theme.css">
-    <link rel="stylesheet" href="/css/bootstrap4-toggle.css">
-    <link rel="stylesheet" href="/css/tempusdominus-bootstrap-4.min.css">
-    <link rel="stylesheet" href="/css/select2.min.css">
-    <link rel="stylesheet" href="/css/select2-bootstrap4.css">
-    <link rel="stylesheet" href="/css/dropzone.css">
-    <link rel="stylesheet" href="/css/jquery.fancybox.css">
-    <link rel="stylesheet" href="/css/cropper.css">
-    <link rel="stylesheet" href="/css/init.css">
-    <link rel="stylesheet" href="/css/admin.style.css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <!-- jQuery Version 1.11.1 -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/js/bootbox.min.js"></script>
-    <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/js/jquery.mjs.nestedSortable.js"></script>
-    <script type="text/javascript" src="/js/bootstrap4-toggle.min.js"></script>
-    <script type="text/javascript" src="/js/jquery.tree.controller.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment-with-locales.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
-    <script type="text/javascript" src="/js/select2.full.js"></script>
-    <script type="text/javascript" src="/js/select2.ru.js"></script>
-    <script type="text/javascript" src="/js/dropzone.js"></script>
-    <script type="text/javascript" src="/js/jquery.fancybox.min.js"></script>
-    <script type="text/javascript" src="/js/cropper.min.js"></script>
-    <script type="text/javascript" src="/js/jquery-cropper.js"></script>
-    <script type="text/javascript" src="/js/ckeditor/ckeditor.js"></script>
-    <script type="text/javascript" src="/js/ckfinder/ckfinder.js"></script>
-    <script type="text/javascript" src="/js/admin.scripts.js"></script>
+    <title>{{ meta_title }}</title>
+    {{ css|raw }}
+    {{ js|raw }}
 </head>
 <body>
 <section id="cover" class="min-vh-100">
@@ -63,13 +24,18 @@
                             </div>
                             <div class="form-group">
                                 <label class="sr-only">Пароль</label>
-                                <input type="password" class="form-control" placeholder="Ваш пароль" required name='password'>
+                                <input type="password" class="form-control" placeholder="Ваш пароль" required
+                                       name='password'>
                             </div>
                             <div class="form-group text-left mb5">
-                                <input type="checkbox" name='is_remember' id="field_remember"> <label for="field_remember">Запомнить меня</label>
+                                <input type="checkbox" name='is_remember' id="field_remember"> <label
+                                        for="field_remember">Запомнить меня</label>
                             </div>
-                            <p><button type="submit" class="btn btn-red fs18">Войти</button></p>
-                            <p class='mb0 text-center'><a href='#' class='underline color-white remember-password'>Забыли пароль?</a></p>
+                            <p>
+                                <button type="submit" class="btn btn-red fs18">Войти</button>
+                            </p>
+                            <p class='mb0 text-center'><a href='#' class='underline color-white remember-password'>Забыли
+                                    пароль?</a></p>
                         </form>
                     </div>
                 </div>
@@ -83,8 +49,11 @@
                                 <input type="text" class="form-control" placeholder="Ваш логин" required name='login'>
                                 <input type='hidden' name='is_remind' value='1'>
                             </div>
-                            <p><button type="submit" class="btn btn-red fs18">Напомнить</button></p>
-                            <p class='mb0 text-center'><a href='#' class='underline color-white to-login-block'>Вернуться к форме входа</a></p>
+                            <p>
+                                <button type="submit" class="btn btn-red fs18">Напомнить</button>
+                            </p>
+                            <p class='mb0 text-center'><a href='#' class='underline color-white to-login-block'>Вернуться
+                                    к форме входа</a></p>
                         </form>
                     </div>
                 </div>
@@ -94,7 +63,8 @@
 </section>
 
 <!-- Modal -->
-<div class="modal fade" id="change-category" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="change-category" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">

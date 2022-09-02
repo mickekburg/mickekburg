@@ -2,10 +2,11 @@
 
 namespace Core\Framework\Application\ModuleInfo\Mapper;
 
-use Core\Framework\Application\ModuleInfo\DTO\ModuleFieldDTO;
-use Core\Framework\Application\ModuleInfo\DTO\ModuleInfoDTO;
-use Core\Framework\Application\ModuleInfo\DTO\ModuleInfoTabDTO;
-use Core\Framework\Application\ModuleInfo\Factory\TestModuleInfoFactory;
+use Core\Framework\ModuleInfo\DTO\ModuleFieldDTO;
+use Core\Framework\ModuleInfo\DTO\ModuleInfoDTO;
+use Core\Framework\ModuleInfo\DTO\ModuleInfoTabDTO;
+use Core\Framework\ModuleInfo\Factory\TestModuleInfoFactory;
+use Core\Framework\ModuleInfo\Mapper\PhpDocModuleInfoDTOSerializer;
 use PHPUnit\Framework\TestCase;
 
 class PhpDocModuleInfoDTOSerializerTest extends TestCase

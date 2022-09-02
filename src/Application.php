@@ -1,12 +1,12 @@
 <?php
 
 
-use Core\Framework\Application\Exception\Error404;
-use Core\Framework\Application\ModuleInfo\DTO\ModuleInfoDTO;
-use Core\Framework\Application\ModuleInfo\Factory\IConfigCreator;
-use Core\Framework\Application\ModuleInfo\Mapper\iModuleInfoDTOSerializer;
-use Core\Framework\Application\ModuleInfo\ModuleInfo;
-use Core\Framework\Application\Router\RouterFactory;
+use Core\Framework\Exception\Error404;
+use Core\Framework\ModuleInfo\DTO\ModuleInfoDTO;
+use Core\Framework\ModuleInfo\Factory\IConfigCreator;
+use Core\Framework\ModuleInfo\Mapper\iModuleInfoDTOSerializer;
+use Core\Framework\ModuleInfo\ModuleInfo;
+use Core\Framework\Router\RouterFactory;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
