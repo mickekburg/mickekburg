@@ -1,8 +1,8 @@
 <?php
 
-namespace Core\AdminTable\Widget;
+namespace Core\Widget\AdminTable\View;
 
-use Core\AdminTable\DTO\AdminTableColumnDTO;
+use Core\Widget\AdminTable\DTO\AdminTableColumnDTO;
 
 class AdminTableColumn
 {

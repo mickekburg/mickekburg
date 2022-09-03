@@ -10,6 +10,7 @@ use Core\Framework\Exception\Error404;
 use Core\Framework\Helper\UrlHelper;
 use Core\Framework\ModuleInfo\ModuleInfo;
 use ReflectionMethod;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -42,6 +43,9 @@ class AdminRouter implements Router
          * @var ModuleInfo
          */
         $module_info = Application::i()->getModuleInfo($controller_name);
+        if (is_null($module_info)) {
+            throw new Error404();
+        }
 
         /**
          * @var BaseAdminController
@@ -61,7 +65,14 @@ class AdminRouter implements Router
             $call = new ReflectionMethod(get_class($controller), $action_name);
             if (count($params) >= $call->getNumberOfRequiredParameters() && count($params) <= $call->getNumberOfParameters()) {
                 $html = $call->invokeArgs($controller, $params);
-                $response = new Response($html);
+                if ($html instanceof JsonResponse) {
+                    $response = $html;
+                } else {
+                    if (ENVIRONMENT == 'development') {
+                        $html .= "<!--" . Application::i()->getWorkTime() . "-->";
+                    }
+                    $response = new Response($html);
+                }
                 $response->send();
                 return;
             }

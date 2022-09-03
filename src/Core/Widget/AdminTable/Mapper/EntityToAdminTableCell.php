@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\AdminTable\Mapper;
+namespace Core\Widget\AdminTable\Mapper;
 
 class EntityToAdminTableCell
 {

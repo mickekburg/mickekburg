@@ -5,7 +5,7 @@ use Core\Framework\ModuleInfo\DTO\ModuleInfoDTO;
 use Core\Framework\ModuleInfo\Factory\IConfigCreator;
 use Core\Framework\ModuleInfo\Mapper\iModuleInfoDTOSerializer;
 use Core\Framework\ModuleInfo\ModuleInfo;
-use Core\Framework\Router\RouterFactory;
+use Core\Framework\Router\Factory\RouterFactory;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
@@ -13,8 +13,8 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
-use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Component\Translation\Translator;
+use Symfony\Contracts\Cache\ItemInterface;
 
 
 class Application
@@ -50,6 +50,11 @@ class Application
     public function getTwig(): \Twig\Environment
     {
         return self::$twig;
+    }
+
+    public function getTranslator(): Translator
+    {
+        return self::$translator;
     }
 
     public function getWorkTime(): float
@@ -90,7 +95,8 @@ class Application
         $twig_loader = new \Twig\Loader\FilesystemLoader(TEMPLATE_PATH);
         self::$twig = new \Twig\Environment($twig_loader, [
             'cache' => TEMPLATE_PATH . "/cache",
-            'auto_reload' => TEMPLATE_RELOAD,
+            'auto_reload' => TWIG_DEBUG,
+            'debug' => TWIG_DEBUG,
         ]);
         self::$twig->addExtension(new \Symfony\Bridge\Twig\Extension\TranslationExtension(self::$translator));
 

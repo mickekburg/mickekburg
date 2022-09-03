@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\AdminTable\Service;
+namespace Core\Widget\AdminTable\Service;
 
 class AdminTableCellViewer
 {

@@ -1016,12 +1016,13 @@ $(document).ready(function(){
 	}
 
 	$(document).on('submit', '.login-form', function(){
-        $('.login-form button').html('<i class="fas fa-spinner fa-spin"></i>');
+		let $btn = $('.login-form button')
+		let old_btn_text = $btn.html();
+		$btn.html('<i class="fas fa-spinner fa-spin"></i>');
 		$.ajax({
 			type: 'POST',
-			url : "/admin/login_do",
+			url : "",
 			data: $(this).serialize(),
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 			dataType: 'json',
 			success: function(result){
 				if(result.message){
@@ -1032,7 +1033,7 @@ $(document).ready(function(){
 					document.location.href = result.redirect;
 				}
 				else{
-                    $('.login-form button').html('Войти');
+					$btn.html(old_btn_text);
                 }
 			},
 			error: function(result){

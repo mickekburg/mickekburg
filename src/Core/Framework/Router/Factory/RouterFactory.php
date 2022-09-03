@@ -1,9 +1,12 @@
 <?php
 
-namespace Core\Framework\Router;
+namespace Core\Framework\Router\Factory;
 
 use Core\Framework\Auth\AdminAuth;
 use Core\Framework\Auth\Auth;
+use Core\Framework\Router\AdminRouter;
+use Core\Framework\Router\FrontendRouter;
+use Core\Framework\Router\Router;
 use Symfony\Component\HttpFoundation\Request;
 
 final class RouterFactory

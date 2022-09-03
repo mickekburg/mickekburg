@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\AdminTable\Repository;
+namespace Core\Widget\AdminTable\Repository;
 
 interface IAdminTableRepository
 {

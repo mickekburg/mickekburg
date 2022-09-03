@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\AdminTable\DTO;
+namespace Core\Widget\AdminTable\DTO;
 
 class AdminTableColumnDTO
 {

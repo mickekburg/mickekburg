@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\AdminTable\Widget;
+namespace Core\Widget\AdminTable\View;
 
 use Core\Framework\Renderable;
 use Core\Framework\TwigRenderer;

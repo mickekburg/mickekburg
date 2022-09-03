@@ -1,3 +1,4 @@
 admin:
+  meta_title: Система администрирования сайта
   login:
     enter_in_panel: Войти в панель

@@ -13,11 +13,11 @@ const LOCALE = 'ru_RU';
 switch (ENVIRONMENT) {
     case 'development':
         error_reporting(E_ALL);
-        define('TEMPLATE_RELOAD', true);
+        define('TWIG_DEBUG', true);
         break;
     case 'production':
         error_reporting(0);
-        define('TEMPLATE_RELOAD', false);
+        define('TWIG_DEBUG', false);
         break;
 }
 
