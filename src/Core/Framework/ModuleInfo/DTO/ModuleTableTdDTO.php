@@ -2,6 +2,8 @@
 
 namespace Core\Framework\ModuleInfo\DTO;
 
+use InvalidArgumentException;
+
 class ModuleTableTdDTO
 {
     protected string $title = "";
@@ -56,7 +58,7 @@ class ModuleTableTdDTO
             self::METHOD_YES_NO,
             self::METHOD_INPUT,
         ])) {
-            $this->method = self::METHOD_NONE;
+            throw new InvalidArgumentException("Unknown field type");
         } else {
             $this->method = $method;
         }

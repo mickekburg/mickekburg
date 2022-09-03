@@ -2,3 +2,14 @@ admin:
   meta_title: Система администрирования сайта
   login:
     enter_in_panel: Войти в панель
+    message: Сообщение
+    forgot_password: Забыли пароль?
+    form:
+      login: Логин
+      password: Пароль
+      remember_me: Запомнить меня
+      enter: Войти
+      your_login: Ваш логин
+      your_password: Ваш пароль
+      remember: Напомнить
+      back_to_login: Вернуться к форме входа

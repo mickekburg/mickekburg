@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Framework\Template\Factory;
+namespace Config;
 
 use Core\Framework\Template\Dictionary\TemplateRegionDictionary;
 use Core\Framework\Template\Template;
@@ -19,11 +19,10 @@ final class TemplateFactory
         //TODO:: докинуть нормальные регионы
         switch ($type) {
             case self::ADMIN_LOGIN:
-                $template = new Template('admin/login.html.twig', [
+                $template = new Template('admin/login/login.html.twig', [
                     TemplateRegionDictionary::META_TITLE,
-                    TemplateRegionDictionary::CONTENT,
-                    TemplateRegionDictionary::MODAL,
-                    TemplateRegionDictionary::LEFT_MENU,
+                    TemplateRegionDictionary::TOP1,
+                    TemplateRegionDictionary::TOP2,
                 ]);
                 $template
                     ->addCSS("/css/bootstrap.css")
@@ -64,13 +63,18 @@ final class TemplateFactory
 
                 return $template;
             case self::ADMIN:
-                $template = new Template('', []);
+                $template = new Template('admin/template.html.twig', [
+                    TemplateRegionDictionary::META_TITLE,
+                    TemplateRegionDictionary::CONTENT,
+                    TemplateRegionDictionary::MODAL,
+                    TemplateRegionDictionary::LEFT_MENU,
+                ]);
                 return $template;
             case self::FRONTEND:
                 $template = new Template('front', []);
                 return $template;
             default:
                 throw new \Exception('Unknown TemplateFactory format given');
-        };
+        }
     }
 }

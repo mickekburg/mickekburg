@@ -17,7 +17,7 @@ class AdminTable extends TwigRenderer implements Renderable
      */
     private array $rows = [];
 
-    protected string $template = "Core/Widget/AdminTable/AdminTable.html";
+    protected string $template = "core/widget/admin_table/admin_table.html.twig";
 
     /**
      * @param AdminTableColumn[] $columns

@@ -6,7 +6,7 @@ abstract class TwigRenderer
 {
     protected string $template;
 
-    public function renderTwig(array $data): string
+    protected function renderTwig(array $data): string
     {
         try {
             $twig_template = \Application::i()->getTwig()->load($this->template);
@@ -15,6 +15,5 @@ abstract class TwigRenderer
             return "";
         }
     }
-
 
 }

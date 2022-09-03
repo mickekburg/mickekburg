@@ -2,7 +2,7 @@
 
 namespace Core\Framework\Controller;
 
-use Core\Framework\Template\Factory\TemplateFactory;
+use Config\TemplateFactory;
 use Core\Framework\Template\Template;
 use Symfony\Component\Translation\Translator;
 

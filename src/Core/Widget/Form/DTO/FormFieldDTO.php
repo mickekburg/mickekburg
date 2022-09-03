@@ -1,21 +1,20 @@
 <?php
 
-namespace Core\Framework\ModuleInfo\DTO;
+namespace Core\Widget\Form\DTO;
 
 use InvalidArgumentException;
 
-class ModuleFieldDTO
+class FormFieldDTO
 {
     protected string $name = "";
     protected string $title = "";
     protected string $type = "";
-    protected bool $is_active = false;
     protected bool $is_required = false;
     protected array $values = [];
-    protected string $default_value = "";
-    protected string $method = self::TYPE_NONE;
+    protected string $value = "";
+    protected string $placeholder = "";
+    protected array $attrs = [];
 
-    public const TYPE_NONE = 'none';
     public const TYPE_TEXT = 'text';
     public const TYPE_TEXTAREA = 'textarea';
     public const TYPE_URL = 'url';
@@ -27,13 +26,9 @@ class ModuleFieldDTO
     public const TYPE_PID = 'pid';
     public const TYPE_CKEDITOR = 'ckeditor';
     public const TYPE_FILE = 'file';
+    public const TYPE_PASSWORD = 'password';
+    public const TYPE_HIDDEN = 'hidden';
     public const TYPE_GALLERY = 'gallery';
-
-    public const METHOD_FUNCTION = 'function';
-    public const METHOD_SEARCH = 'search';
-    public const METHOD_TAGS = 'tags';
-
-    public const DATE_NOW = 'NOW';
 
     /**
      * @return string
@@ -45,9 +40,9 @@ class ModuleFieldDTO
 
     /**
      * @param string $name
-     * @return ModuleFieldDTO
+     * @return FormFieldDTO
      */
-    public function setName(string $name): ModuleFieldDTO
+    public function setName(string $name): FormFieldDTO
     {
         $this->name = $name;
         return $this;
@@ -63,9 +58,9 @@ class ModuleFieldDTO
 
     /**
      * @param string $title
-     * @return ModuleFieldDTO
+     * @return FormFieldDTO
      */
-    public function setTitle(string $title): ModuleFieldDTO
+    public function setTitle(string $title): FormFieldDTO
     {
         $this->title = $title;
         return $this;
@@ -81,9 +76,9 @@ class ModuleFieldDTO
 
     /**
      * @param string $type
-     * @return ModuleFieldDTO
+     * @return FormFieldDTO
      */
-    public function setType(string $type): ModuleFieldDTO
+    public function setType(string $type): FormFieldDTO
     {
         if (!in_array($type, [
             self::TYPE_TEXT,
@@ -98,29 +93,13 @@ class ModuleFieldDTO
             self::TYPE_CKEDITOR,
             self::TYPE_FILE,
             self::TYPE_GALLERY,
+            self::TYPE_PASSWORD,
+            self::TYPE_HIDDEN,
         ])) {
             throw new InvalidArgumentException("Unknown field type");
         } else {
             $this->type = $type;
         }
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getIsActive(): bool
-    {
-        return $this->is_active;
-    }
-
-    /**
-     * @param bool $is_active
-     * @return ModuleFieldDTO
-     */
-    public function setIsActive(bool $is_active): ModuleFieldDTO
-    {
-        $this->is_active = $is_active;
         return $this;
     }
 
@@ -134,9 +113,9 @@ class ModuleFieldDTO
 
     /**
      * @param array $values
-     * @return ModuleFieldDTO
+     * @return FormFieldDTO
      */
-    public function setValues(array $values): ModuleFieldDTO
+    public function setValues(array $values): FormFieldDTO
     {
         $this->values = $values;
         return $this;
@@ -145,47 +124,21 @@ class ModuleFieldDTO
     /**
      * @return string
      */
-    public function getDefaultValue(): string
+    public function getValue(): string
     {
-        return $this->default_value;
+        return $this->value;
     }
 
     /**
-     * @param string $default_value
-     * @return ModuleFieldDTO
+     * @param string $value
+     * @return FormFieldDTO
      */
-    public function setDefaultValue(string $default_value): ModuleFieldDTO
+    public function setValue(string $value): FormFieldDTO
     {
-        $this->default_value = $default_value;
+        $this->value = $value;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getMethod(): string
-    {
-        return $this->method;
-    }
-
-    /**
-     * @param string $method
-     * @return ModuleFieldDTO
-     */
-    public function setMethod(string $method): ModuleFieldDTO
-    {
-        if (!in_array($method, [
-            self::METHOD_FUNCTION,
-            self::METHOD_SEARCH,
-            self::METHOD_TAGS,
-            self::TYPE_NONE,
-        ])) {
-            throw new InvalidArgumentException("Unknown field type");
-        } else {
-            $this->method = $method;
-        }
-        return $this;
-    }
 
     /**
      * @return bool
@@ -199,9 +152,45 @@ class ModuleFieldDTO
      * @param bool $is_required
      * @return $this
      */
-    public function setIsRequired(bool $is_required): ModuleFieldDTO
+    public function setIsRequired(bool $is_required): FormFieldDTO
     {
         $this->is_required = $is_required;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlaceholder(): string
+    {
+        return $this->placeholder;
+    }
+
+    /**
+     * @param string $placeholder
+     * @return $this
+     */
+    public function setPlaceholder(string $placeholder): FormFieldDTO
+    {
+        $this->placeholder = $placeholder;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAttrs(): array
+    {
+        return $this->attrs;
+    }
+
+    /**
+     * @param array $attrs
+     * @return $this
+     */
+    public function setAttrs(array $attrs): FormFieldDTO
+    {
+        $this->attrs = $attrs;
         return $this;
     }
 

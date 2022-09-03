@@ -6,7 +6,7 @@ include_once __DIR__ . '/src/Config/Config.php';
 Application::i()->run();
 
 /*$repository = new StabAdminTableRepository();
-echo (new AdminTable($repository->getColumns(), $repository->getRows()))->render();
+echo (new admin_table($repository->getColumns(), $repository->getRows()))->render();
 
 $test = new Test();
 $test->showOne();

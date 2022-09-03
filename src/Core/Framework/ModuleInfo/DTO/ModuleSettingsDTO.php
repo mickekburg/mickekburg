@@ -2,6 +2,8 @@
 
 namespace Core\Framework\ModuleInfo\DTO;
 
+use InvalidArgumentException;
+
 class ModuleSettingsDTO
 {
     protected string $title = "";
@@ -66,7 +68,7 @@ class ModuleSettingsDTO
             self::TYPE_CHECKBOX,
             self::TYPE_INT,
         ])) {
-            $this->type = self::TYPE_CHECKBOX;
+            throw new InvalidArgumentException("Unknown field type");
         } else {
             $this->type = $type;
         }
