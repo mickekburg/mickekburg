@@ -2,6 +2,8 @@
 
 namespace Core\Widget\Form\DTO;
 
+use Core\Widget\Form\Filter\IFormFieldFilter;
+use Core\Widget\Form\Validator\FormFieldValidator;
 use InvalidArgumentException;
 
 class FormFieldDTO
@@ -14,6 +16,14 @@ class FormFieldDTO
     protected string $value = "";
     protected string $placeholder = "";
     protected array $attrs = [];
+    /**
+     * @var FormFieldValidator[]
+     */
+    protected array $validators;
+    /**
+     * @var IFormFieldFilter[]
+     */
+    protected array $filters;
 
     public const TYPE_TEXT = 'text';
     public const TYPE_TEXTAREA = 'textarea';
@@ -191,6 +201,42 @@ class FormFieldDTO
     public function setAttrs(array $attrs): FormFieldDTO
     {
         $this->attrs = $attrs;
+        return $this;
+    }
+
+    /**
+     * @return FormFieldValidator[]
+     */
+    public function getValidators(): array
+    {
+        return $this->validators;
+    }
+
+    /**
+     * @param FormFieldValidator $validators
+     * @return $this
+     */
+    public function addValidator(FormFieldValidator $validator): FormFieldDTO
+    {
+        $this->validators[] = $validator;
+        return $this;
+    }
+
+    /**
+     * @return IFormFieldFilter[]
+     */
+    public function getFilters(): array
+    {
+        return $this->filters;
+    }
+
+    /**
+     * @param IFormFieldFilter $filter
+     * @return $this
+     */
+    public function addFilter(FormFieldValidator $filter): FormFieldDTO
+    {
+        $this->filters[] = $filter;
         return $this;
     }
 

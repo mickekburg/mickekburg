@@ -65,7 +65,7 @@ class AdminRouter implements Router
             $call = new ReflectionMethod(get_class($controller), $action_name);
             if (count($params) >= $call->getNumberOfRequiredParameters() && count($params) <= $call->getNumberOfParameters()) {
                 $html = $call->invokeArgs($controller, $params);
-                if ($html instanceof JsonResponse) {
+                if ($html instanceof Response) {
                     $response = $html;
                 } else {
                     if (ENVIRONMENT == 'development') {

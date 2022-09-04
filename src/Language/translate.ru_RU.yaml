@@ -13,3 +13,6 @@ admin:
       your_password: Ваш пароль
       remember: Напомнить
       back_to_login: Вернуться к форме входа
+form:
+  validation:
+    not_empty: Поле {field} не должно быть пустым
