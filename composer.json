@@ -36,6 +36,8 @@
         "phpdocumentor/reflection-docblock": "^5.3",
         "symfony/translation": "^6.1",
         "symfony/twig-bridge": "^6.1",
-        "symfony/yaml": "^6.1"
+        "symfony/yaml": "^6.1",
+        "doctrine/dbal": "^3.4",
+        "doctrine/annotations": "^1.13"
     }
 }

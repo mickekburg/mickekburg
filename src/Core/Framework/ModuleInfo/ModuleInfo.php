@@ -20,4 +20,13 @@ class ModuleInfo
         return new $controller_name();
     }
 
+    public function getEntityFolder(): ?string
+    {
+        if (file_exists(APP_PATH . "src/" . $this->dto->getModuleName() . "/Entity")) {
+            return APP_PATH . "src/" . $this->dto->getModuleName() . "/Entity";
+        }
+
+        return null;
+    }
+
 }

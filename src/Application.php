@@ -1,11 +1,15 @@
 <?php
 
+use Config\DBConnectionFactory;
 use Core\Framework\Exception\Error404;
 use Core\Framework\ModuleInfo\DTO\ModuleInfoDTO;
 use Core\Framework\ModuleInfo\Factory\IConfigCreator;
 use Core\Framework\ModuleInfo\Mapper\iModuleInfoDTOSerializer;
 use Core\Framework\ModuleInfo\ModuleInfo;
 use Core\Framework\Router\Factory\RouterFactory;
+use Core\Framework\Router\Router;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\ORMSetup;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
@@ -20,15 +24,17 @@ use Symfony\Contracts\Cache\ItemInterface;
 class Application
 {
     private static $instance;
-    private static $router;
+    private static Router $router;
     private static \Twig\Environment $twig;
-    private static $time = 0;
+    private static float $time = 0;
     private static ContainerBuilder $di_container;
     private static Request $request;
     private static array $modules = [];
     private static Translator $translator;
+    private static EntityManager $db_manager;
+    private static Session $session;
 
-    public static function i()
+    public static function i(): self
     {
         if (self::$instance === null) {
             self::$time = microtime(true);
@@ -37,7 +43,10 @@ class Application
         return self::$instance;
     }
 
-    public function getFromDIContainer($service)
+    /**
+     * @throws Exception
+     */
+    public function getFromDIContainer($service): ?object
     {
         return self::$di_container->get($service);
     }
@@ -47,9 +56,19 @@ class Application
         return self::$request;
     }
 
+    public function getSession(): Session
+    {
+        return self::$session;
+    }
+
     public function getTwig(): \Twig\Environment
     {
         return self::$twig;
+    }
+
+    public function getDbManager(): EntityManager
+    {
+        return self::$db_manager;
     }
 
     public function getTranslator(): Translator
@@ -67,18 +86,36 @@ class Application
         return self::$modules[ucfirst($module_name)] ?? null;
     }
 
-    public function run()
+    public function getModules(): array
+    {
+        return self::$modules;
+    }
+
+    private function initWhoops(): void
     {
         if (ENVIRONMENT == 'development') {
             $whoops = new \Whoops\Run;
             $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
             $whoops->register();
         }
+    }
 
-        $session = new Session();
-        $session->start();
-        self::$request = Request::createFromGlobals();
+    private function initSession(): void
+    {
+        self::$session = new Session();
+        self::$session->start();
+    }
 
+    private function initLanguage(): void
+    {
+        $locale = self::$session->get('Language', LOCALE);
+        self::$translator = new Translator($locale);
+        self::$translator->addLoader('yaml', new YamlFileLoader());
+        self::$translator->addResource('yaml', APP_PATH . '/src/Language/translate.' . $locale . '.yaml', $locale);
+    }
+
+    private function initDI(): void
+    {
         self::$di_container = new ContainerBuilder();
         $loader = new XmlFileLoader(self::$di_container, new FileLocator(APP_PATH . "/src/Config"));
         try {
@@ -86,12 +123,10 @@ class Application
         } catch (\Exception $exception) {
             exit("Services.xml not found");
         }
+    }
 
-        $locale = $session->get('Language', LOCALE);
-        self::$translator = new Translator($locale);
-        self::$translator->addLoader('yaml', new YamlFileLoader());
-        self::$translator->addResource('yaml', APP_PATH . '/src/Language/translate.' . $locale . '.yaml', $locale);
-
+    private function initTwig(): void
+    {
         $twig_loader = new \Twig\Loader\FilesystemLoader(TEMPLATE_PATH);
         self::$twig = new \Twig\Environment($twig_loader, [
             'cache' => TEMPLATE_PATH . "/cache",
@@ -99,25 +134,23 @@ class Application
             'debug' => TWIG_DEBUG,
         ]);
         self::$twig->addExtension(new \Symfony\Bridge\Twig\Extension\TranslationExtension(self::$translator));
+    }
 
+    private function initRequest(): void
+    {
+        self::$request = Request::createFromGlobals();
+    }
 
+    private function initModules(): void
+    {
         if (IS_REDIS) {
             self::$modules = $this->initModulesCache();
         } else {
-            self::$modules = $this->initModules();
-        }
-
-        self::$router = RouterFactory::factory(self::$request);
-
-        try {
-            self::$router->runController();
-        } catch (Error404 $exception) {
-            self::$router->runError404();
+            self::$modules = $this->initModulesDefault();
         }
     }
 
-
-    private function initModules(): array
+    private function initModulesDefault(): array
     {
         $modules = [];
 
@@ -161,7 +194,45 @@ class Application
         $cache = self::getFromDIContainer("cache");
         return $cache->get('modules_cache', function (ItemInterface $item) {
             $item->expiresAfter(3600);
-            return $this->initModules();
+            return $this->initModulesDefault();
         });
     }
+
+    private function initDB(): void
+    {
+        try {
+            $connection = DBConnectionFactory::getDbConfig();
+            $db_config = ORMSetup::createAnnotationMetadataConfiguration(
+                \Core\Framework\ModuleInfo\Mapper\ModuleInfoArrayToEntityDirMapper::map(self::$modules),
+                ENVIRONMENT == 'development',
+                null,
+                null,
+                false
+            );
+            self::$db_manager = EntityManager::create($connection, $db_config);
+        } catch (\Exception $exception) {
+            exit("DBConnectionFactory config problem");
+        } catch (\Doctrine\ORM\Exception\ManagerException $e) {
+            exit($e->getMessage());
+        }
+    }
+
+    public function run(): void
+    {
+        $this->initWhoops();
+        $this->initSession();
+        $this->initLanguage();
+        $this->initDI();
+        $this->initTwig();
+        $this->initRequest();
+        $this->initModules();
+
+        self::$router = RouterFactory::factory(self::$request);
+        try {
+            self::$router->runController();
+        } catch (Error404 $exception) {
+            self::$router->runError404();
+        }
+    }
+
 }
