@@ -15,22 +15,26 @@ class ModuleInfoDTO
      * @var ModuleInfoTabDTO[]
      */
     protected array $tabs = [];
+
     /**
      * @var ModuleTableTdDTO[]
      */
     protected array $fields_tds = [];
-    /**
-     * @var ModuleSettingsDTO[]
-     */
-    protected array $settings = [];
+
     /**
      * @var ModuleTableActionDTO[]
      */
     protected array $actions = [];
+
     /**
      * @var ModuleInfoTabDTO[]
      */
     protected array $tabs_group = [];
+
+    /**
+     * @var ModuleSettingsDTO[]
+     */
+    protected array $settings = [];
 
 
     /**

@@ -2,7 +2,7 @@
 
 namespace Core\Framework\Helper;
 
-class UrlHelper
+final class UrlHelper
 {
     private static string $base_url = "";
 

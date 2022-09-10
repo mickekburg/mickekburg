@@ -7,12 +7,12 @@ use InvalidArgumentException;
 class ModuleTableTdDTO
 {
     protected string $title = "";
-    protected string $method = self::METHOD_NONE;
+    protected string $method = self::METHOD_TEXT;
     protected string $field = "";
     protected bool $is_filter = false;
-    protected int $order = 0;
+    protected bool $sort = false;
 
-    public const METHOD_NONE = 'none';
+    public const METHOD_TEXT = 'none';
     public const METHOD_EDIT = 'editTD';
     public const METHOD_SELECT = 'selectTD';
     public const METHOD_CHECKBOX = 'checkboxTD';
@@ -57,6 +57,7 @@ class ModuleTableTdDTO
             self::METHOD_CHECKBOX,
             self::METHOD_YES_NO,
             self::METHOD_INPUT,
+            self::METHOD_TEXT,
         ])) {
             throw new InvalidArgumentException("Unknown field type");
         } else {
@@ -102,20 +103,20 @@ class ModuleTableTdDTO
     }
 
     /**
-     * @return int
+     * @return bool
      */
-    public function getOrder(): int
+    public function getSort(): bool
     {
-        return $this->order;
+        return $this->sort;
     }
 
     /**
-     * @param int $order
+     * @param bool $sort
      * @return $this
      */
-    public function setOrder(int $order): ModuleTableTdDTO
+    public function setSort(bool $sort): ModuleTableTdDTO
     {
-        $this->order = $order;
+        $this->sort = $sort;
         return $this;
     }
 

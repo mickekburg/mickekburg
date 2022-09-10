@@ -1,6 +1,6 @@
 <?php
 
-// php src/Cli/Tools/doctrine.php orm:schema-tool:create
+// php src/Cli/doctrine.php orm:schema-tool:create
 // vendor/bin/doctrine-migrations migrations:migrate
 
 use Config\DBConnectionFactory;
@@ -14,7 +14,7 @@ require 'vendor/autoload.php';
 require __DIR__ . '/src/Config/Config.php';
 
 $connection = DBConnectionFactory::getDbConfig();
-$db_config = ORMSetup::createAnnotationMetadataConfiguration(
+$db_config = ORMSetup::createAttributeMetadataConfiguration(
     [
         APP_PATH . "src/Module/User/Entity",
     ],

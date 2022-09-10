@@ -124,7 +124,32 @@ class ConfigCreator implements IConfigCreator
             ->setMethod(ModuleTableTdDTO::METHOD_EDIT)
             ->setField('meta_title')
             ->setIsFilter(true)
-            ->setOrder(1);
+            ->setSort(true);
+
+        $actions = [];
+        $actions[] = (new ModuleTableActionDTO())
+            ->setFunction('editRow')
+            ->setTitle('Редактировать');
+        $actions[] = (new ModuleTableActionDTO())
+            ->setFunction('deleteRow')
+            ->setTitle('Удалить');
+
+        $settings = [];
+        $settings[] = (new ModuleSettingsDTO())
+            ->setName('is_select3')
+            ->setTitle('Показать список 3')
+            ->setDefaultValue("1")
+            ->setType(ModuleSettingsDTO::TYPE_CHECKBOX);
+        $settings[] = (new ModuleSettingsDTO())
+            ->setName('on_page')
+            ->setTitle('На странице сайта')
+            ->setDefaultValue("30")
+            ->setType(ModuleSettingsDTO::TYPE_INT);
+        $settings[] = (new ModuleSettingsDTO())
+            ->setName('is_tab4')
+            ->setTitle('Показывать хар-ки')
+            ->setDefaultValue("1")
+            ->setType(ModuleSettingsDTO::TYPE_CHECKBOX);
 
         $tabs2 = [];
         $fields = [];
@@ -175,37 +200,12 @@ class ConfigCreator implements IConfigCreator
             ->setName('SEO')
             ->setFields($fields);
 
-        $settings = [];
-        $settings[] = (new ModuleSettingsDTO())
-            ->setName('is_select3')
-            ->setTitle('Показать список 3')
-            ->setDefaultValue("1")
-            ->setType(ModuleSettingsDTO::TYPE_CHECKBOX);
-        $settings[] = (new ModuleSettingsDTO())
-            ->setName('on_page')
-            ->setTitle('На странице сайта')
-            ->setDefaultValue("30")
-            ->setType(ModuleSettingsDTO::TYPE_INT);
-        $settings[] = (new ModuleSettingsDTO())
-            ->setName('is_tab4')
-            ->setTitle('Показывать хар-ки')
-            ->setDefaultValue("1")
-            ->setType(ModuleSettingsDTO::TYPE_CHECKBOX);
-
-        $actions = [];
-        $actions[] = (new ModuleTableActionDTO())
-            ->setFunction('editRow')
-            ->setTitle('Редактировать');
-        $actions[] = (new ModuleTableActionDTO())
-            ->setFunction('deleteRow')
-            ->setTitle('Удалить');
-
         $module = (new ModuleInfoDTO())
             ->setTabs($tabs)
             ->setFieldsTds($tds)
-            ->setTabsGroup($tabs2)
-            ->setSettings($settings)
             ->setActions($actions)
+            ->setSettings($settings)
+            ->setTabsGroup($tabs2)
             ->setModuleName("Test")
             ->setLiteralName("Тестовый модуль")
             ->setDefaultOrder("order")

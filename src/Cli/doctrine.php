@@ -9,7 +9,7 @@ include_once __DIR__ . '/../../vendor/autoload.php';
 include_once __DIR__ . '/../Config/Config.php';
 
 $connection = DBConnectionFactory::getDbConfig();
-$db_config = ORMSetup::createAnnotationMetadataConfiguration(
+$db_config = ORMSetup::createAttributeMetadataConfiguration(
     [
         APP_PATH."src/Module/User/Entity",
     ],
@@ -18,7 +18,13 @@ $db_config = ORMSetup::createAnnotationMetadataConfiguration(
     null,
     false
 );
-$entityManager = EntityManager::create($connection, $db_config);
+try {
+    $entityManager = EntityManager::create($connection, $db_config);
+} catch (\Doctrine\DBAL\Exception $e) {
+    exit("Cli dbal exception");
+} catch (\Doctrine\ORM\Exception\ManagerException $e) {
+    exit("Cli manager exception");
+}
 
 ConsoleRunner::run(
     new SingleManagerProvider($entityManager)
