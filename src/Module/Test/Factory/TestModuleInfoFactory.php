@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Framework\ModuleInfo\Factory;
+namespace Module\Test\Factory;
 
 use Core\Framework\ModuleInfo\DTO\ModuleFieldDTO;
 use Core\Framework\ModuleInfo\DTO\ModuleInfoDTO;
@@ -121,7 +121,7 @@ class TestModuleInfoFactory
             ->setMethod(ModuleTableTdDTO::METHOD_EDIT)
             ->setField('meta_title')
             ->setIsFilter(true)
-            ->setOrder(1);
+            ->setSort(true);
 
         $tabs2 = [];
         $fields = [];

@@ -6,12 +6,12 @@ use Config\TemplateFactory;
 use Core\Framework\Controller\BaseAdminController;
 use Core\Framework\Helper\UrlHelper;
 use Core\Framework\Template\Dictionary\TemplateRegionDictionary;
-use Core\Widget\Form\DTO\FormFieldDTO;
 use Core\Widget\Form\Form;
 use Module\Login\DTO\LoginDataDto;
 use Module\Login\Factory\FormLoginFieldsFactory;
 use Module\Login\Mapper\FormResultArrayToLoginDataDTOMapper;
 use Module\Login\Sevice\UserLoginService;
+use Module\User\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -22,6 +22,7 @@ class AdminController extends BaseAdminController
         $this->template = TemplateFactory::getTemplate(TemplateFactory::ADMIN_LOGIN);
         $this->translator = \Application::i()->getTranslator();
         $this->template->writeRegion(TemplateRegionDictionary::META_TITLE, $this->translator->trans("admin.meta_title"));
+        $this->db = \Application::i()->getDbManager();
     }
 
     public function isNeedAuth(): bool
@@ -42,6 +43,9 @@ class AdminController extends BaseAdminController
         }
 
         $this->initTemplate();
+
+        /*$user = $this->db->getRepository(User::class)->findByLoginPassword("admin", "12345");
+        var_dump($user);*/
 
         $form_login = new Form(
             FormLoginFieldsFactory::FORM_LOGIN,

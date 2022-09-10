@@ -8,8 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OneToOne;
 use Module\User\Repository\UserRepository;
 
-#[ORM\Table(name: "user")]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Table(name: "user")]
 class User
 {
     #[ORM\Column(type: Types::INTEGER)]
@@ -151,6 +151,11 @@ class User
     public function setLogin(string $login): void
     {
         $this->login = $login;
+    }
+
+    public function checkPassword(string $password): bool
+    {
+        return sha1($password . $this->password_salt) === $this->password;
     }
 
 }

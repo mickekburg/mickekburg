@@ -1,9 +1,9 @@
 <?php
 
 use Config\DBConnectionFactory;
+use Core\Common\Factory\AbstractConfigFactory;
 use Core\Framework\Exception\Error404;
 use Core\Framework\ModuleInfo\DTO\ModuleInfoDTO;
-use Core\Framework\ModuleInfo\Factory\IConfigCreator;
 use Core\Framework\ModuleInfo\Mapper\iModuleInfoDTOSerializer;
 use Core\Framework\ModuleInfo\ModuleInfo;
 use Core\Framework\Router\Factory\RouterFactory;
@@ -169,7 +169,7 @@ class Application
                     if (file_exists($config_creator_file)) {
                         $config_creator_name = "Module\\" . $module_directory->getBasename() . "\\Config\ConfigCreator";
                         $config_creator = new $config_creator_name();
-                        if ($config_creator instanceof IConfigCreator) {
+                        if ($config_creator instanceof AbstractConfigFactory) {
                             file_put_contents($config_file, $config_creator->createConfig());
                         }
                     }
@@ -202,7 +202,7 @@ class Application
     {
         try {
             $connection = DBConnectionFactory::getDbConfig();
-            $db_config = ORMSetup::createAnnotationMetadataConfiguration(
+            $db_config = ORMSetup::createAttributeMetadataConfiguration(
                 \Core\Framework\ModuleInfo\Mapper\ModuleInfoArrayToEntityDirMapper::map(self::$modules),
                 ENVIRONMENT == 'development',
                 null,
@@ -226,6 +226,7 @@ class Application
         $this->initTwig();
         $this->initRequest();
         $this->initModules();
+        $this->initDB();
 
         self::$router = RouterFactory::factory(self::$request);
         try {

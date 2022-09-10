@@ -2,7 +2,9 @@
 
 namespace Module\User\Repository;
 
-class UserGroupRepository
+use Doctrine\ORM\EntityRepository;
+
+class UserGroupRepository extends EntityRepository
 {
 
 }

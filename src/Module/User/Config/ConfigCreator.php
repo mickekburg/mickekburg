@@ -2,24 +2,28 @@
 
 namespace Module\User\Config;
 
-use Config\DBConnectionFactory;
-use Core\Common\Command\InstallCommand;
+use Core\Common\Factory\AbstractConfigFactory;
 use Core\Framework\ModuleInfo\DTO\ModuleFieldDTO;
 use Core\Framework\ModuleInfo\DTO\ModuleInfoDTO;
 use Core\Framework\ModuleInfo\DTO\ModuleInfoTabDTO;
 use Core\Framework\ModuleInfo\DTO\ModuleTableActionDTO;
 use Core\Framework\ModuleInfo\DTO\ModuleTableTdDTO;
-use Core\Framework\ModuleInfo\Factory\IConfigCreator;
-use Core\Framework\ModuleInfo\Mapper\iModuleInfoDTOSerializer;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\ORMSetup;
 use Module\User\Entity\User;
 use Module\User\Entity\UserGroup;
 
-class ConfigCreator implements IConfigCreator
+class ConfigCreator extends AbstractConfigFactory
 {
+    protected function getModuleName(): string
+    {
+        return "User";
+    }
 
-    public function createConfig(): string
+    protected function getModuleClasses(): array
+    {
+        return [User::class, UserGroup::class];
+    }
+
+    protected function createModuleInfo(): ModuleInfoDTO
     {
         $tabs = [];
         $fields = [];
@@ -181,7 +185,7 @@ class ConfigCreator implements IConfigCreator
             ->setFunction('deleteRow')
             ->setTitle('Удалить');
 
-        $module = (new ModuleInfoDTO())
+        return (new ModuleInfoDTO())
             ->setTabs($tabs)
             ->setFieldsTds($tds)
             ->setTabsGroup($tabs2)
@@ -193,12 +197,10 @@ class ConfigCreator implements IConfigCreator
             ->setIsMultipids(false)
             ->setOnPage(20)
             ->setIsGroup(true);
+    }
 
-        /**
-         * @var iModuleInfoDTOSerializer
-         */
-        $serializer = \Application::i()->getFromDIContainer("module_info_serializer");
-
+    protected function getInitialEntity(): array
+    {
         $root_user_group = new UserGroup();
         $root_user_group->setName("Все пользователи");
         $root_user_group->setCanDelete(false);
@@ -215,31 +217,6 @@ class ConfigCreator implements IConfigCreator
         $default_admin->setParent($default_user_group);
         $default_admin->setPassword("12345");
 
-        $connection = DBConnectionFactory::getDbConfig();
-        $db_config = ORMSetup::createAttributeMetadataConfiguration(
-            [
-                APP_PATH . "src/Module/User/Entity",
-            ],
-            ENVIRONMENT == 'development',
-            null,
-            null,
-            false
-        );
-        $entity_manager = EntityManager::create($connection, $db_config);
-        $tool = new \Doctrine\ORM\Tools\SchemaTool($entity_manager);
-        $classes = array(
-            $entity_manager->getClassMetadata(User::class),
-            $entity_manager->getClassMetadata(UserGroup::class)
-        );
-        try {
-            $tool->createSchema($classes);
-        } catch (\Exception $ex) {
-            $tool->dropSchema($classes);
-            $tool->createSchema($classes);
-        }
-
-        (new InstallCommand($entity_manager))->setFillValues([$root_user_group, $default_user_group, $default_admin])->execute();
-
-        return $serializer->getSerializer()->serialize($module, 'xml', ['xml_format_output' => true,]);
+        return [$root_user_group, $default_user_group, $default_admin];
     }
 }

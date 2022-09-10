@@ -5,8 +5,8 @@ namespace Core\Framework\Application\ModuleInfo\Mapper;
 use Core\Framework\ModuleInfo\DTO\ModuleFieldDTO;
 use Core\Framework\ModuleInfo\DTO\ModuleInfoDTO;
 use Core\Framework\ModuleInfo\DTO\ModuleInfoTabDTO;
-use Core\Framework\ModuleInfo\Factory\TestModuleInfoFactory;
 use Core\Framework\ModuleInfo\Mapper\PhpDocModuleInfoDTOSerializer;
+use Module\Test\Factory\TestModuleInfoFactory;
 use PHPUnit\Framework\TestCase;
 
 class PhpDocModuleInfoDTOSerializerTest extends TestCase
