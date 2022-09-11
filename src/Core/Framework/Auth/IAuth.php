@@ -7,6 +7,6 @@ use Core\Framework\ModuleInfo\ModuleInfo;
 
 interface IAuth
 {
-    public function isAuth(): bool;
-    public function canAccess(ModuleInfo $module, ActionDTO $action): bool;
+    public static function isAuth(): bool;
+    public static function canAccess(ModuleInfo $module, ActionDTO $action): bool;
 }

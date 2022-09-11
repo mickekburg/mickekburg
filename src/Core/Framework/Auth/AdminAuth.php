@@ -4,17 +4,17 @@ namespace Core\Framework\Auth;
 
 use Core\Framework\Auth\DTO\ActionDTO;
 use Core\Framework\ModuleInfo\ModuleInfo;
+use Module\Login\Sevice\UserLoginService;
 
 class AdminAuth implements IAuth
 {
 
-    public function isAuth(): bool
+    public static function isAuth(): bool
     {
-        // TODO: Implement isAuth() method.
-        return false;
+        return (bool)\Application::i()->getSession()->get(UserLoginService::ADMIN_AUTH_USER_ID);
     }
 
-    public function canAccess(ModuleInfo $module, ActionDTO $action): bool
+    public static function canAccess(ModuleInfo $module, ActionDTO $action): bool
     {
         // TODO: Implement canAccess() method.
         return true;

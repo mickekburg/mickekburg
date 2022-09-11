@@ -8,13 +8,15 @@ class LoginDataDto
     private string $password;
     private bool $is_password_hashed;
     private bool $is_remember;
+    private string $login_url;
 
-    public function __construct(string $login, string $password, bool $is_password_hashed = false, bool $is_remember = true)
+    public function __construct(string $login, string $password, bool $is_password_hashed = false, bool $is_remember = true, string $login_url = "")
     {
         $this->login = $login;
         $this->password = $password;
         $this->is_password_hashed = $is_password_hashed;
         $this->is_remember = $is_remember;
+        $this->login_url = $login_url;
     }
 
     /**
@@ -36,7 +38,7 @@ class LoginDataDto
     /**
      * @return bool
      */
-    public function isIsPasswordHashed(): bool
+    public function getIsPasswordHashed(): bool
     {
         return $this->is_password_hashed;
     }
@@ -44,9 +46,17 @@ class LoginDataDto
     /**
      * @return bool
      */
-    public function isIsRemember(): bool
+    public function getIsRemember(): bool
     {
         return $this->is_remember;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLoginUrl(): string
+    {
+        return $this->login_url;
     }
 
 }

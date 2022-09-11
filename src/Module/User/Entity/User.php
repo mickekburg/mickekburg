@@ -153,9 +153,20 @@ class User
         $this->login = $login;
     }
 
-    public function checkPassword(string $password): bool
+    public function checkPassword(string $password, bool $is_hashed): bool
     {
+        if ($is_hashed) {
+            return $password === $this->password;
+        }
         return sha1($password . $this->password_salt) === $this->password;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
     }
 
 }

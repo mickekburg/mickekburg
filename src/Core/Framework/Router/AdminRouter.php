@@ -9,10 +9,12 @@ use Core\Framework\Controller\BaseAdminController;
 use Core\Framework\Exception\Error404;
 use Core\Framework\Helper\UrlHelper;
 use Core\Framework\ModuleInfo\ModuleInfo;
+use Module\Login\Factory\FormLoginFieldsFactory;
 use ReflectionMethod;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 class AdminRouter implements Router
 {
@@ -52,11 +54,15 @@ class AdminRouter implements Router
          */
         $controller = $module_info->getAdminController();
         if ($controller->isNeedAuth() && !$this->auth->isAuth()) {
-            $response = new RedirectResponse(UrlHelper::siteUrl(ADMIN_PATH . '/' . LOGIN_PATH) . '?login_url=' . urlencode(\Application::i()->getRequest()->getPathInfo()));
+            $response = new RedirectResponse(
+                UrlHelper::siteUrl(ADMIN_PATH . '/' . LOGIN_PATH) .
+                '?' . FormLoginFieldsFactory::FIELD_LOGIN_URL . '=' . urlencode(\Application::i()->getRequest()->getPathInfo())
+            );
             $response->send();
             return;
         }
-        $action_name = empty($this->uri[1]) ? "actionIndex" : "action" . ucfirst($this->uri[1]);
+
+        $action_name = empty($this->uri[1]) ? "actionIndex" : "action" . str_replace(' ', '', ucwords(str_replace('_', ' ', $this->uri[1])));
         if (!$this->auth->canAccess($module_info, new ActionDTO($action_name))) {
             throw new Error404();
         }
@@ -69,7 +75,7 @@ class AdminRouter implements Router
                     $response = $html;
                 } else {
                     if (ENVIRONMENT == 'development') {
-                        $html .= "<!--" . Application::i()->getWorkTime() . "-->";
+                        $html .= "<!-- Work time: " . Application::i()->getWorkTime() . "-->";
                     }
                     $response = new Response($html);
                 }

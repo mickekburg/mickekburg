@@ -19,11 +19,11 @@ class FormFieldDTO
     /**
      * @var FormFieldValidator[]
      */
-    protected array $validators;
+    protected array $validators = [];
     /**
      * @var IFormFieldFilter[]
      */
-    protected array $filters;
+    protected array $filters = [];
 
     public const TYPE_TEXT = 'text';
     public const TYPE_TEXTAREA = 'textarea';

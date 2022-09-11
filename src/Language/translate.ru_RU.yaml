@@ -4,6 +4,7 @@ admin:
     enter_in_panel: Войти в панель
     message: Сообщение
     forgot_password: Забыли пароль?
+    wrong_password: Пользователь с таким логином/паролем не зарегистрирован
     form:
       login: Логин
       password: Пароль

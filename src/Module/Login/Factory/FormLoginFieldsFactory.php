@@ -7,6 +7,10 @@ use Core\Widget\Form\DTO\FormFieldDTO;
 final class FormLoginFieldsFactory
 {
     const FORM_LOGIN = 'form_login';
+    const FIELD_LOGIN = 'login';
+    const FIELD_LOGIN_URL = 'login_url';
+    const FIELD_IS_REMEMBER = 'is_remember';
+    const FIELD_PASSWORD = 'password';
     const FORM_FORGOT_PASSWORD = 'form_forgot_password';
 
     /**
@@ -17,7 +21,7 @@ final class FormLoginFieldsFactory
         $form_login_fieldset = [
             (new FormFieldDTO())
                 ->setType(FormFieldDTO::TYPE_TEXT)
-                ->setName('login')
+                ->setName(self::FIELD_LOGIN)
                 ->setIsRequired(true)
                 ->setPlaceholder(\Application::i()->getTranslator()->trans("admin.login.form.your_login"))
                 ->setAttrs([
@@ -25,7 +29,7 @@ final class FormLoginFieldsFactory
                 ]),
             (new FormFieldDTO())
                 ->setType(FormFieldDTO::TYPE_PASSWORD)
-                ->setName('password')
+                ->setName(self::FIELD_PASSWORD)
                 ->setIsRequired(true)
                 ->setPlaceholder(\Application::i()->getTranslator()->trans("admin.login.form.your_password"))
                 ->setAttrs([
@@ -33,7 +37,7 @@ final class FormLoginFieldsFactory
                 ]),
             (new FormFieldDTO())
                 ->setType(FormFieldDTO::TYPE_CHECKBOX)
-                ->setName('is_remember')
+                ->setName(self::FIELD_IS_REMEMBER)
                 ->setAttrs([
                     'id' => 'field_remember',
                 ]),
@@ -41,8 +45,8 @@ final class FormLoginFieldsFactory
         if ($is_login_url) {
             $form_login_fieldset[] = (new FormFieldDTO())
                 ->setType(FormFieldDTO::TYPE_HIDDEN)
-                ->setName('login_url')
-                ->setValue(\Application::i()->getRequest()->get('login_url'));
+                ->setName(self::FIELD_LOGIN_URL)
+                ->setValue(\Application::i()->getRequest()->get(self::FIELD_LOGIN_URL));
         }
         return $form_login_fieldset;
     }
@@ -55,16 +59,12 @@ final class FormLoginFieldsFactory
         return [
             (new FormFieldDTO())
                 ->setType(FormFieldDTO::TYPE_TEXT)
-                ->setName('login')
+                ->setName(self::FIELD_LOGIN)
                 ->setIsRequired(true)
                 ->setPlaceholder(\Application::i()->getTranslator()->trans("admin.login.form.your_login"))
                 ->setAttrs([
                     'class' => 'form-control',
                 ]),
-            (new FormFieldDTO())
-                ->setType(FormFieldDTO::TYPE_HIDDEN)
-                ->setName('is_remind')
-                ->setValue(1),
         ];
     }
 }

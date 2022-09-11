@@ -3,15 +3,17 @@
 namespace Module\Login;
 
 use Config\TemplateFactory;
+use Core\Framework\Auth\AdminAuth;
 use Core\Framework\Controller\BaseAdminController;
 use Core\Framework\Helper\UrlHelper;
 use Core\Framework\Template\Dictionary\TemplateRegionDictionary;
 use Core\Widget\Form\Form;
 use Module\Login\DTO\LoginDataDto;
+use Module\Login\Exception\WrongPasswordException;
 use Module\Login\Factory\FormLoginFieldsFactory;
 use Module\Login\Mapper\FormResultArrayToLoginDataDTOMapper;
 use Module\Login\Sevice\UserLoginService;
-use Module\User\Entity\User;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -32,11 +34,17 @@ class AdminController extends BaseAdminController
 
     public function actionIndex()
     {
-        $remember_data = $this->getRememberData();
-        if (!empty($remember_data)) {
+        if (AdminAuth::isAuth()) {
+            return new RedirectResponse(UrlHelper::siteUrl(UserLoginService::ADMIN_REDIRECT_DEFAULT_URL));
+        }
+
+        $login = \Application::i()->getRequest()->cookies->get(UserLoginService::REMEMBER_LOGIN_COOKIE);
+        $password = \Application::i()->getRequest()->cookies->get(UserLoginService::REMEMBER_PASSWORD_COOKIE);
+        if (!empty($login) && !empty($password)) {
+            $dto = new LoginDataDto($login, $password, true, false);
+            $service = new UserLoginService($dto);
             try {
-                (new UserLoginService($remember_data))->login();
-                return (new RedirectResponse(UrlHelper::siteUrl('/')));
+                return new RedirectResponse($service->login());
             } catch (\Exception) {
                 //Не удалась авторизация по cookies
             }
@@ -44,17 +52,14 @@ class AdminController extends BaseAdminController
 
         $this->initTemplate();
 
-        /*$user = $this->db->getRepository(User::class)->findByLoginPassword("admin", "12345");
-        var_dump($user);*/
-
         $form_login = new Form(
             FormLoginFieldsFactory::FORM_LOGIN,
-            FormLoginFieldsFactory::getLoginFields(\Application::i()->getRequest()->get('login_url')),
+            FormLoginFieldsFactory::getLoginFields((bool)\Application::i()->getRequest()->get(FormLoginFieldsFactory::FIELD_LOGIN_URL)),
             "/admin/login/login_form.html.twig"
         );
 
         $form_forgot_password = new Form(
-            'form_forgot_password',
+            FormLoginFieldsFactory::FORM_FORGOT_PASSWORD,
             FormLoginFieldsFactory::getForgotPasswordFields(),
             "/admin/login/forgot_password.html.twig"
         );
@@ -66,16 +71,25 @@ class AdminController extends BaseAdminController
                     $form_login_result = $form_login->getResult();
                     try {
                         $form_login_data_dto = FormResultArrayToLoginDataDTOMapper::map($form_login_result);
-                        (new UserLoginService($form_login_data_dto))->login();
-                        return (new RedirectResponse(UrlHelper::siteUrl('/')));
-                    } catch (\Exception) {
-                        //Не удалась авторизация по cookies
+                        $login_service = new UserLoginService($form_login_data_dto);
+                        $response = new JsonResponse([
+                            'redirect' => $login_service->login(),
+                        ]);
+                        if ($form_login_data_dto->getIsRemember()) {
+                            $user = $login_service->getUser();
+                            $response->headers->setCookie(Cookie::create(UserLoginService::REMEMBER_LOGIN_COOKIE, $user->getLogin()));
+                            $response->headers->setCookie(Cookie::create(UserLoginService::REMEMBER_PASSWORD_COOKIE, $user->getPassword()));
+                        }
+                        return $response;
+                    } catch (WrongPasswordException) {
+                        return new JsonResponse([
+                            'message' => $this->translator->trans("admin.login.wrong_password"),
+                        ]);
                     }
                 }
-                return new JsonResponse([
-                    'test' => 123,
-                ]);
+
             } else if ($form_forgot_password->isSubmitted()) {
+                //TODO::Восстановление пароля
                 return new JsonResponse([
                     'test' => 345,
                 ]);
@@ -88,13 +102,9 @@ class AdminController extends BaseAdminController
         return $this->template->render();
     }
 
-    private function getRememberData(): ?LoginDataDto
+    public function actionExit()
     {
-        $login = \Application::i()->getRequest()->cookies->get('remember_login');
-        $password = \Application::i()->getRequest()->cookies->get('remember_password');
-        if (!empty($login) && !empty($password)) {
-            return new LoginDataDto($login, $password, true, false);
-        }
-        return null;
+        return UserLoginService::logout();
     }
+
 }

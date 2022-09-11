@@ -75,12 +75,15 @@ class Form extends \Core\Framework\TwigRenderer implements \Core\Framework\Rende
             foreach ($field->getFilters() as $filter) {
                 $value = $filter->filter($value);
             }
+            $was_error = false;
             foreach ($field->getValidators() as $validator) {
                 if (!$validator->isValid($value)) {
-                    $this->errors[] = new FormResultDTO($field->getTitle(), $validator->getError());
-                } else {
-                    $this->result[] = new FormResultDTO($field->getTitle(), $value);
+                    $this->errors[] = new FormResultDTO($field->getName(), $field->getTitle(), $validator->getError());
+                    $was_error = true;
                 }
+            }
+            if (!$was_error) {
+                $this->result[] = new FormResultDTO($field->getName(), $field->getTitle(), $value);
             }
         }
         return empty($this->errors);
