@@ -33,6 +33,7 @@ class Application
     private static Translator $translator;
     private static EntityManager $db_manager;
     private static Session $session;
+    private static ModuleInfo $current_module_info;
 
     public static function i(): self
     {
@@ -89,6 +90,16 @@ class Application
     public function getModules(): array
     {
         return self::$modules;
+    }
+
+    public function setCurrentModuleInfo(ModuleInfo $module_info): void
+    {
+        self::$current_module_info = $module_info;
+    }
+
+    public function getCurrentModuleInfo(): ModuleInfo
+    {
+        return self::$current_module_info;
     }
 
     private function initWhoops(): void
@@ -234,6 +245,7 @@ class Application
         } catch (Error404 $exception) {
             self::$router->runError404();
         }
+
     }
 
 }

@@ -49,6 +49,8 @@ class AdminRouter implements Router
             throw new Error404();
         }
 
+        Application::i()->setCurrentModuleInfo($module_info);
+
         /**
          * @var BaseAdminController
          */

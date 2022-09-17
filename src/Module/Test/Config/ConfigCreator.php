@@ -2,19 +2,17 @@
 
 namespace Module\Test\Config;
 
+use Core\Common\Factory\AbstractConfigFactory;
 use Core\Framework\ModuleInfo\DTO\ModuleFieldDTO;
 use Core\Framework\ModuleInfo\DTO\ModuleInfoDTO;
 use Core\Framework\ModuleInfo\DTO\ModuleInfoTabDTO;
 use Core\Framework\ModuleInfo\DTO\ModuleSettingsDTO;
 use Core\Framework\ModuleInfo\DTO\ModuleTableActionDTO;
 use Core\Framework\ModuleInfo\DTO\ModuleTableTdDTO;
-use Core\Framework\ModuleInfo\Factory\IConfigCreator;
-use Core\Framework\ModuleInfo\Mapper\iModuleInfoDTOSerializer;
 
-class ConfigCreator implements IConfigCreator
+class ConfigCreator extends AbstractConfigFactory
 {
-
-    public function createConfig(): string
+    protected function createModuleInfo(): ModuleInfoDTO
     {
         $tabs = [];
         $fields = [];
@@ -200,7 +198,7 @@ class ConfigCreator implements IConfigCreator
             ->setName('SEO')
             ->setFields($fields);
 
-        $module = (new ModuleInfoDTO())
+        return (new ModuleInfoDTO())
             ->setTabs($tabs)
             ->setFieldsTds($tds)
             ->setActions($actions)
@@ -212,12 +210,20 @@ class ConfigCreator implements IConfigCreator
             ->setIsMultipids(true)
             ->setOnPage(20)
             ->setIsGroup(true);
+    }
 
-        /**
-         * @var iModuleInfoDTOSerializer
-         */
-        $serializer = \Application::i()->getFromDIContainer("module_info_serializer");
+    protected function getModuleName(): string
+    {
+        return "Test";
+    }
 
-        return $serializer->getSerializer()->serialize($module, 'xml', ['xml_format_output' => true,]);
+    protected function getModuleClasses(): array
+    {
+        return [];
+    }
+
+    protected function getInitialEntity(): array
+    {
+        return [];
     }
 }

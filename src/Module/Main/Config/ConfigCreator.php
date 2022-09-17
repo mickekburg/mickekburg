@@ -1,6 +1,6 @@
 <?php
 
-namespace Module\Login\Config;
+namespace Module\Main\Config;
 
 use Core\Common\Factory\AbstractConfigFactory;
 use Core\Framework\ModuleInfo\DTO\ModuleInfoDTO;
@@ -10,13 +10,13 @@ class ConfigCreator extends AbstractConfigFactory
     protected function createModuleInfo(): ModuleInfoDTO
     {
         return (new ModuleInfoDTO())
-            ->setModuleName("Login")
-            ->setLiteralName("Авторизация");
+            ->setModuleName("Main")
+            ->setLiteralName("Система администрирования");
     }
 
     protected function getModuleName(): string
     {
-        return "Login";
+        return "Main";
     }
 
     protected function getModuleClasses(): array

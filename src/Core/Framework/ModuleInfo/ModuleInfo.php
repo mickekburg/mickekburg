@@ -29,4 +29,17 @@ class ModuleInfo
         return null;
     }
 
+
+    public function getModuleName(): string
+    {
+        return $this->dto->getModuleName();
+    }
+
+    public function loadLanguage(\Symfony\Component\Translation\Translator $translator, ?string $locale): void
+    {
+        if (!empty($locale) && file_exists(APP_PATH . "src/Module/" . $this->dto->getModuleName() . "/Language/translate." . $locale . '.yaml')) {
+            $translator->addResource('yaml', APP_PATH . '/src/Module/' . $this->dto->getModuleName() . '/Language/translate.' . $locale . '.yaml', $locale);
+        }
+    }
+
 }

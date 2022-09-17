@@ -33,32 +33,34 @@ abstract class AbstractConfigFactory
             exit('module_info_serializer was not find in DI');
         }
 
-        $connection = DBConnectionFactory::getDbConfig();
-        $db_config = ORMSetup::createAttributeMetadataConfiguration(
-            [
-                APP_PATH . "src/Module/" . $this->getModuleName() . "/Entity",
-            ],
-            ENVIRONMENT == 'development',
-            null,
-            null,
-            false
-        );
-        $entity_manager = EntityManager::create($connection, $db_config);
-        $tool = new \Doctrine\ORM\Tools\SchemaTool($entity_manager);
+        if($this->getModuleName()){
+            $connection = DBConnectionFactory::getDbConfig();
+            $db_config = ORMSetup::createAttributeMetadataConfiguration(
+                [
+                    APP_PATH . "src/Module/" . $this->getModuleName() . "/Entity",
+                ],
+                ENVIRONMENT == 'development',
+                null,
+                null,
+                false
+            );
+            $entity_manager = EntityManager::create($connection, $db_config);
+            $tool = new \Doctrine\ORM\Tools\SchemaTool($entity_manager);
 
-        if (!empty($this->getModuleClasses())) {
-            $classes = array_map([$entity_manager, 'getClassMetadata'], $this->getModuleClasses());
-            try {
-                $tool->createSchema($classes);
-            } catch (\Exception $ex) {
-                $tool->dropSchema($classes);
-                $tool->createSchema($classes);
+            if (!empty($this->getModuleClasses())) {
+                $classes = array_map([$entity_manager, 'getClassMetadata'], $this->getModuleClasses());
+                try {
+                    $tool->createSchema($classes);
+                } catch (\Exception $ex) {
+                    $tool->dropSchema($classes);
+                    $tool->createSchema($classes);
+                }
             }
-        }
 
-        $install_command = Dispatcher::getInstallCommand($this->getModuleName());
-        $install_command->setEntityManager($entity_manager);
-        $install_command->setFillValues($this->getInitialEntity())->execute();
+            $install_command = Dispatcher::getInstallCommand($this->getModuleName());
+            $install_command->setEntityManager($entity_manager);
+            $install_command->setFillValues($this->getInitialEntity())->execute();
+        }
 
         return $serializer->getSerializer()->serialize($module, 'xml', ['xml_format_output' => true,]);
     }
