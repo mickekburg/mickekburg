@@ -3,6 +3,8 @@
 use Config\DBConnectionFactory;
 use Core\Common\Factory\AbstractConfigFactory;
 use Core\Framework\Exception\Error404;
+use Core\Framework\Installer\DTO\InstallModuleDTO;
+use Core\Framework\Installer\Installer;
 use Core\Framework\ModuleInfo\DTO\ModuleInfoDTO;
 use Core\Framework\ModuleInfo\Mapper\iModuleInfoDTOSerializer;
 use Core\Framework\ModuleInfo\ModuleInfo;
@@ -161,6 +163,35 @@ class Application
         }
     }
 
+    /**
+     * @param InstallModuleDTO[] $install
+     * @return void
+     */
+    private function installModules(array $install): array
+    {
+        $modules = [];
+        if (count($install)) {
+            $default_install_order = Installer::$default_install;
+            foreach ($default_install_order as $module_name) {
+                foreach ($install as $i => $module) {
+                    if ($module->getModuleName() == $module_name) {
+                        $installer = new Installer($module);
+                        $installer->install();
+                        unset($install[$i]);
+                        break;
+                    }
+                }
+            }
+
+            foreach ($install as $i => $module) {
+                $installer = new Installer($module);
+                $installer->install();
+                $modules[$module->getModuleName()] = $installer->getResult();
+            }
+        }
+        return $modules;
+    }
+
     private function initModulesDefault(): array
     {
         $modules = [];
@@ -172,21 +203,18 @@ class Application
         $finder = new Finder();
         $finder->directories()->in(APP_PATH . "/src/Module")->depth('== 0');
         if ($finder->hasResults()) {
+            $install = [];
             foreach ($finder as $module_directory) {
                 $config_file = $module_directory->getRealPath() . "/Config/Config.xml";
 
                 if (!file_exists($config_file)) {
-                    $config_creator_file = $module_directory->getRealPath() . "/Config/ConfigCreator.php";
-                    if (file_exists($config_creator_file)) {
-                        $config_creator_name = "Module\\" . $module_directory->getBasename() . "\\Config\ConfigCreator";
-                        $config_creator = new $config_creator_name();
-                        if ($config_creator instanceof AbstractConfigFactory) {
-                            file_put_contents($config_file, $config_creator->createConfig());
-                        }
-                    }
-                }
-
-                if (file_exists($config_file)) {
+                    $install[] = new InstallModuleDTO(
+                        $config_file,
+                        $module_directory->getRealPath() . "/Config/ConfigCreator.php",
+                        "Module\\" . $module_directory->getBasename() . "\\Config\ConfigCreator",
+                        $module_directory->getRelativePathname()
+                    );
+                } else {
                     /**
                      * @var ModuleInfoDTO
                      */
@@ -194,6 +222,8 @@ class Application
                     $modules[$module_directory->getRelativePathname()] = new ModuleInfo($module_info_dto);
                 }
             }
+
+            $modules = array_merge($modules, $this->installModules($install));
         }
 
         return $modules;
@@ -245,7 +275,7 @@ class Application
         } catch (Error404 $exception) {
             self::$router->runError404();
         }
-
     }
+
 
 }

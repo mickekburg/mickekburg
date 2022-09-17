@@ -3,6 +3,7 @@
 namespace Module\User\Entity;
 
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping as ORM;
 use Module\User\Repository\UserGroupRepository;
@@ -11,17 +12,19 @@ use Module\User\Repository\UserGroupRepository;
 #[ORM\Entity(repositoryClass: UserGroupRepository::class)]
 class UserGroup
 {
+    public const ADMIN_GROUP = 2;
+
     #[ORM\Column(type: Types::INTEGER)]
     #[ORM\Id, ORM\GeneratedValue(strategy: 'AUTO')]
     private int $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $name;
 
-    #[OneToOne(targetEntity: "UserGroup")]
+    #[ManyToOne(targetEntity: "UserGroup")]
     private ?UserGroup $parent = null;
 
-    #[ORM\Column(type: 'boolean', options: ["default" => 1])]
+    #[ORM\Column(type: Types::BOOLEAN, options: ["default" => 1])]
     private bool $can_delete = true;
 
     /**
@@ -71,4 +74,5 @@ class UserGroup
     {
         $this->can_delete = $can_delete;
     }
+
 }

@@ -8,6 +8,7 @@ use Core\Framework\ModuleInfo\DTO\ModuleInfoDTO;
 use Core\Framework\ModuleInfo\DTO\ModuleInfoTabDTO;
 use Core\Framework\ModuleInfo\DTO\ModuleTableActionDTO;
 use Core\Framework\ModuleInfo\DTO\ModuleTableTdDTO;
+use Module\Access\Entity\AccessModule;
 use Module\User\Entity\User;
 use Module\User\Entity\UserGroup;
 
@@ -210,6 +211,14 @@ class ConfigCreator extends AbstractConfigFactory
         $default_user_group->setCanDelete(false);
         $default_user_group->setParent($root_user_group);
 
+        $default_super_admin = new User();
+        $default_super_admin->setLogin("superadmin");
+        $default_super_admin->setName("Суперадмин");
+        $default_super_admin->setCanDelete(false);
+        $default_super_admin->setParent($default_user_group);
+        $default_super_admin->setPassword("12345");
+        $default_super_admin->setIsSuperadmin(true);
+
         $default_admin = new User();
         $default_admin->setLogin("admin");
         $default_admin->setName("Администратор");
@@ -217,6 +226,6 @@ class ConfigCreator extends AbstractConfigFactory
         $default_admin->setParent($default_user_group);
         $default_admin->setPassword("12345");
 
-        return [$root_user_group, $default_user_group, $default_admin];
+        return [$root_user_group, $default_user_group, $default_admin, $default_super_admin];
     }
 }

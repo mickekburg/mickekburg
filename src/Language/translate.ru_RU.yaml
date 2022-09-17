@@ -14,6 +14,12 @@ admin:
       your_password: Ваш пароль
       remember: Напомнить
       back_to_login: Вернуться к форме входа
+  modules:
+    structure: Структура
+    catalog: Каталог
+    users: Пользователи
+    files: Файлы
+    settings: Настройки
 form:
   validation:
     not_empty: Поле {field} не должно быть пустым

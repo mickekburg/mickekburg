@@ -44,10 +44,10 @@ class Template implements Renderable
         $this->afterActions[] = $action;
     }
 
-    public function writeRegion(string $region, string $data): self
+    public function writeRegion(string $region, string $data, $is_overwrite = false): self
     {
         if (in_array($region, $this->regions)) {
-            if (!isset($this->init_regions[$region])) {
+            if (!isset($this->init_regions[$region]) || $is_overwrite) {
                 $this->init_regions[$region] = [];
             }
             $this->init_regions[$region][] = $data;

@@ -5,7 +5,7 @@ namespace Module\User\Entity;
 use Core\Framework\Helper\StringHelper;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\OneToOne;
+use Doctrine\ORM\Mapping\ManyToOne;
 use Module\User\Repository\UserRepository;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -16,29 +16,32 @@ class User
     #[ORM\Id, ORM\GeneratedValue(strategy: 'AUTO')]
     private int $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $login;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $name;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $second_name = "";
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $third_name = "";
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $password;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $password_salt;
 
-    #[OneToOne(targetEntity: "UserGroup")]
+    #[ManyToOne(targetEntity: "UserGroup")]
     private UserGroup $parent;
 
-    #[ORM\Column(type: 'boolean', options: ["default" => 1])]
+    #[ORM\Column(type: Types::BOOLEAN, options: ["default" => 1])]
     private bool $can_delete = true;
+
+    #[ORM\Column(type: Types::BOOLEAN, options: ["default" => 0])]
+    private bool $is_superadmin = false;
 
     /**
      * @return string
@@ -167,6 +170,22 @@ class User
     public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsSuperadmin(): bool
+    {
+        return $this->is_superadmin;
+    }
+
+    /**
+     * @param bool $is_superadmin
+     */
+    public function setIsSuperadmin(bool $is_superadmin): void
+    {
+        $this->is_superadmin = $is_superadmin;
     }
 
 }

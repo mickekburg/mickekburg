@@ -3,7 +3,6 @@
 namespace Core\Common\Factory;
 
 use Config\DBConnectionFactory;
-use Core\Common\Command\InstallCommand;
 use Core\Common\Dispatcher;
 use Core\Framework\ModuleInfo\DTO\ModuleInfoDTO;
 use Core\Framework\ModuleInfo\Mapper\iModuleInfoDTOSerializer;
@@ -20,6 +19,30 @@ abstract class AbstractConfigFactory
 
     abstract protected function getInitialEntity(): array;
 
+    protected EntityManager $entity_manager;
+
+    protected function initEntityManagerPath(): array
+    {
+        return [
+            APP_PATH . "src/Module/" . $this->getModuleName() . "/Entity",
+        ];
+    }
+
+    protected function initEntityManager(): void
+    {
+        if (empty($this->entity_manager)) {
+            $connection = DBConnectionFactory::getDbConfig();
+            $db_config = ORMSetup::createAttributeMetadataConfiguration(
+                $this->initEntityManagerPath(),
+                ENVIRONMENT == 'development',
+                null,
+                null,
+                false
+            );
+            $this->entity_manager = EntityManager::create($connection, $db_config);
+        }
+    }
+
     public function createConfig(): string
     {
         $module = $this->createModuleInfo();
@@ -33,22 +56,12 @@ abstract class AbstractConfigFactory
             exit('module_info_serializer was not find in DI');
         }
 
-        if($this->getModuleName()){
-            $connection = DBConnectionFactory::getDbConfig();
-            $db_config = ORMSetup::createAttributeMetadataConfiguration(
-                [
-                    APP_PATH . "src/Module/" . $this->getModuleName() . "/Entity",
-                ],
-                ENVIRONMENT == 'development',
-                null,
-                null,
-                false
-            );
-            $entity_manager = EntityManager::create($connection, $db_config);
-            $tool = new \Doctrine\ORM\Tools\SchemaTool($entity_manager);
+        if ($this->getModuleName()) {
+            $this->initEntityManager();
+            $tool = new \Doctrine\ORM\Tools\SchemaTool($this->entity_manager);
 
             if (!empty($this->getModuleClasses())) {
-                $classes = array_map([$entity_manager, 'getClassMetadata'], $this->getModuleClasses());
+                $classes = array_map([$this->entity_manager, 'getClassMetadata'], $this->getModuleClasses());
                 try {
                     $tool->createSchema($classes);
                 } catch (\Exception $ex) {
@@ -58,10 +71,11 @@ abstract class AbstractConfigFactory
             }
 
             $install_command = Dispatcher::getInstallCommand($this->getModuleName());
-            $install_command->setEntityManager($entity_manager);
+            $install_command->setEntityManager($this->entity_manager);
             $install_command->setFillValues($this->getInitialEntity())->execute();
         }
 
         return $serializer->getSerializer()->serialize($module, 'xml', ['xml_format_output' => true,]);
     }
+
 }

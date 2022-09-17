@@ -27,6 +27,7 @@ abstract class BaseAdminController
         $this->session = \Application::i()->getSession();
 
         $this->module->loadLanguage($this->translator, $this->session->get('Language', LOCALE));
+        $this->loadLeftMenu();
     }
 
     public function isNeedAuth(): bool
@@ -35,6 +36,11 @@ abstract class BaseAdminController
     }
 
     public function actionIndex()
+    {
+
+    }
+
+    private function loadLeftMenu()
     {
 
     }
