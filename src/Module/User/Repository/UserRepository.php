@@ -2,10 +2,10 @@
 
 namespace Module\User\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Core\Common\Repository\CommonRepository;
 use Module\User\Entity\User;
 
-class UserRepository extends EntityRepository
+class UserRepository extends CommonRepository
 {
     public function findByLoginPassword(string $login, string $password, bool $is_hashed = false)
     {

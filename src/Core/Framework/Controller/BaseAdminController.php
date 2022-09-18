@@ -6,6 +6,9 @@ use Config\TemplateFactory;
 use Core\Framework\ModuleInfo\ModuleInfo;
 use Core\Framework\Template\Template;
 use Doctrine\ORM\EntityManager;
+use Module\Access\Entity\AccessModule;
+use Module\Access\Service\AccessService;
+use Module\User\Entity\User;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Translation\Translator;
 
@@ -17,6 +20,7 @@ abstract class BaseAdminController
     protected ModuleInfo $module;
     protected string $folder = "";
     protected Session $session;
+    protected User $user;
 
     protected function initTemplate(): void
     {
@@ -25,6 +29,7 @@ abstract class BaseAdminController
         $this->db = \Application::i()->getDbManager();
         $this->module = \Application::i()->getCurrentModuleInfo();
         $this->session = \Application::i()->getSession();
+        $this->user = \Application::i()->getUser();
 
         $this->module->loadLanguage($this->translator, $this->session->get('Language', LOCALE));
         $this->loadLeftMenu();
@@ -40,8 +45,8 @@ abstract class BaseAdminController
 
     }
 
-    private function loadLeftMenu()
+    private function loadLeftMenu(): void
     {
-
+        $menu_items = AccessService::i()->getUserAvailableMenu();
     }
 }

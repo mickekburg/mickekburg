@@ -2,10 +2,9 @@
 
 namespace Module\Access\Repository;
 
-use Doctrine\ORM\EntityRepository;
-use Module\User\Entity\User;
+use Core\Common\Repository\CommonRepository;
 
-class AccessModuleRoolRepository extends EntityRepository
+class AccessModuleRoolRepository extends CommonRepository
 {
 
 }

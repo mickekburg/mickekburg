@@ -13,7 +13,7 @@ use Module\User\Entity\UserGroup;
 #[ORM\Table(name: "access_module_rool")]
 class AccessModuleRool
 {
-    public const DENY = 1;
+    public const DENY = 0;
     public const ALLOW = 1;
     public const INHERIT = 2;
 
@@ -152,5 +152,13 @@ class AccessModuleRool
     public function setCanDelete(int $can_delete): void
     {
         $this->can_delete = $can_delete;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
     }
 }

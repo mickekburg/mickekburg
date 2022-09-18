@@ -12,6 +12,8 @@ use Core\Framework\Router\Factory\RouterFactory;
 use Core\Framework\Router\Router;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
+use Module\Login\Sevice\UserLoginService;
+use Module\User\Entity\User;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
@@ -36,6 +38,7 @@ class Application
     private static EntityManager $db_manager;
     private static Session $session;
     private static ModuleInfo $current_module_info;
+    private static User $user;
 
     public static function i(): self
     {
@@ -92,6 +95,11 @@ class Application
     public function getModules(): array
     {
         return self::$modules;
+    }
+
+    public function getUser(): User
+    {
+        return self::$user;
     }
 
     public function setCurrentModuleInfo(ModuleInfo $module_info): void
@@ -258,6 +266,13 @@ class Application
         }
     }
 
+    private function initUser()
+    {
+        if (self::$session->get(UserLoginService::ADMIN_AUTH_USER_ID)) {
+            self::$user = self::$db_manager->getRepository(User::class)->find(self::$session->get(UserLoginService::ADMIN_AUTH_USER_ID));
+        }
+    }
+
     public function run(): void
     {
         $this->initWhoops();
@@ -268,6 +283,7 @@ class Application
         $this->initRequest();
         $this->initModules();
         $this->initDB();
+        $this->initUser();
 
         self::$router = RouterFactory::factory(self::$request);
         try {

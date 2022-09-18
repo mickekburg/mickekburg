@@ -2,9 +2,9 @@
 
 namespace Module\User\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Core\Common\Repository\CommonRepository;
 
-class UserGroupRepository extends EntityRepository
+class UserGroupRepository extends CommonRepository
 {
 
 }

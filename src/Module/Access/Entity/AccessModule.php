@@ -51,7 +51,6 @@ class AccessModule
         return $this;
     }
 
-
     /**
      * @return int
      */
