@@ -1,0 +1,24 @@
+<ul>
+    {% for menu_item in menu_items %}
+        <li>
+            <a href='{{ menu_item.getHref() }}'><i class="{{ menu_item.getIcon() }} fs20"></i> {{ menu_item.getTitle() }}</a>
+            {% if menu_item.getSubitems()|length > 0  %}
+                <div class='popup'>
+                    <a href='#' class='close'><i class="fas fa-times"></i></a>
+                    <div class='header'>{{ menu_item.getTitle() }}</div>
+                    <ul>
+                        {% for menu_subitem in menu_item.getSubitems() %}
+                            <li><a href='{{ menu_subitem.getHref() }}'>{{ menu_subitem.getTitle() }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </li>
+    {% endfor %}
+
+    {% if is_superadmin %}
+        <li class='super'>
+            <a href='#' class='active'><i class="fas fa-cog fs20"></i> Суперадмин</a>
+        </li>
+    {% endif %}
+</ul>

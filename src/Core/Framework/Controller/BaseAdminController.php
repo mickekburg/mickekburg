@@ -52,6 +52,9 @@ abstract class BaseAdminController
     {
         $menu_items = AccessService::i()->getUserAvailableMenu();
 
-        $this->template->writeRegion(TemplateRegionDictionary::LEFT_MENU, (new AdminMenuWidget(AdminMenuWidgetMapper::mapAccessModule($menu_items)))->render());
+        $this->template->writeRegion(TemplateRegionDictionary::LEFT_MENU, (
+                new AdminMenuWidget(AdminMenuWidgetMapper::mapAccessModule($menu_items), $this->user->getIsSuperadmin())
+            )->render()
+        );
     }
 }

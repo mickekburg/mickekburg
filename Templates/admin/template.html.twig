@@ -11,7 +11,7 @@
 </head>
 <body>
     <header class='d-flex'>
-        <a class='logo text-center fs24' href='/'>CRM</a>
+        <a class='logo text-center fs24' href='{{ "/" | site_url(true) }}'>CRM</a>
         <div class='top-menu'>
             <a href='#' class='active'>Навигация 1</a>
             <a href='#'>Навигация 2</a>
@@ -31,73 +31,9 @@
 
     <aside class='left-side'>
         <div class="left-side-overlay"></div>
-        <ul>
-            <li>
-                <a href='#'><i class="fas fa-sitemap fs20"></i> Структура</a>
-                <div class='popup'>
-                    <a href='#' class='close'><i class="fas fa-times"></i></a>
-                    <div class='header'>Структура</div>
-                    <ul>
-                        <li><a href='#'>Меню</a></li>
-                        <li><a href='#'>Страницы</a></li>
-                        <li><a href='#'>Блог</a></li>
-                        <li><a href='#'>Теги</a></li>
-                        <li><a href='#'>Новости</a></li>
-                        <li><a href='#'>Сотрудники</a></li>
-                        <li><a href='#'>Галереи</a></li>
-                        <li><a href='#'>Документы</a></li>
-                        <li><a href='#'>Филиалы</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li>
-                <a href='#'><i class="fas fa-list fs20"></i><span class='orders'>12</span> Каталог</a>
-                <div class='popup'>
-                    <a href='#' class='close'><i class="fas fa-times"></i></a>
-                    <div class='header'>Каталог</div>
-                    <ul>
-                        <li><a href='#'>Товары</a></li>
-                        <li><a href='#'>Характеристики</a></li>
-                        <li><a href='#'>Поставщики</a></li>
-                        <li><a href='#'>Производители</a></li>
-                        <li><a href='#'>Валюты</a></li>
-                        <li><a href='#'>Импорт/экспорт</a></li>
-                        <li><a href='#'>Доставка</a></li>
-                        <li><a href='#'>Оплата</a></li>
-                        <li><a href='#'>Отзывы</a></li>
-                        <li><a href='#'>Готовые фильтры</a></li>
-                        <li><a href='#'>Обратная связь</a><span>10</span></li>
-                        <li><a href='#'>Незавершенные покупки</a></li>
-                        <li><a href='#'>Заказы</a><span>10</span></li>
-                    </ul>
-                </div>
-            </li>
-            <li>
-                <a href='#'><i class="fas fa-users-cog fs20"></i> Пользователи</a>
-            </li>
-            <li>
-                <a href='#'><i class="fas fa-file-export fs20"></i> Файлы</a>
-            </li>
-            <li>
-                <a href='#'><i class="fas fa-cogs fs20"></i> Настройки</a>
-                <div class='popup'>
-                    <a href='#' class='close'><i class="fas fa-times"></i></a>
-                    <div class='header'>Настройки</div>
-                    <ul>
-                        <li><a href='#'>Регионы</a></li>
-                        <li><a href='#'>Параметры</a></li>
-                        <li><a href='#'>Редиректы</a></li>
-                        <li><a href='#'>Шаблоны замен</a></li>
-                        <li><a href='#'>SEO</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li class='super'>
-                <a href='#' class='active'><i class="fas fa-cog fs20"></i> Суперадмин</a>
-            </li>
-        </ul>
+        {{ leftMenu | raw}}
         <a href='#' class='hide-sidebar'><i class="fas fa-angle-left"></i></a>
-        <div class='copyright'>&copy;2012-2020 <a href='#' target='blank' class='underline color-white ml10'>Документация</a></div>
+        <div class='copyright'>&copy;2012-{{ 'now' | date('Y') }} <a href='#' target='blank' class='underline color-white ml10'>Документация</a></div>
     </aside>
 
     <div class='content'>

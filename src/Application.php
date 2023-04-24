@@ -9,6 +9,7 @@ use Core\Framework\ModuleInfo\Mapper\iModuleInfoDTOSerializer;
 use Core\Framework\ModuleInfo\ModuleInfo;
 use Core\Framework\Router\Factory\RouterFactory;
 use Core\Framework\Router\Router;
+use Core\Twig\UrlExtension;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 use Module\Login\Sevice\UserLoginService;
@@ -154,6 +155,7 @@ class Application
             'debug' => TWIG_DEBUG,
         ]);
         self::$twig->addExtension(new \Symfony\Bridge\Twig\Extension\TranslationExtension(self::$translator));
+        self::$twig->addExtension(new UrlExtension());
     }
 
     private function initRequest(): void

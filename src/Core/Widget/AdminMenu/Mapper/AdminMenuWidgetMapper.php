@@ -17,7 +17,8 @@ final class AdminMenuWidgetMapper
         $result = [];
         $result_children = [];
         foreach ($menu_items as $menu_item) {
-            $menu_item_dto = new MenuItemDTO($menu_item->getName(), UrlHelper::siteUrl(ADMIN_PATH . '/' . $menu_item->getModuleName()));
+            $url = $menu_item->getModuleName() ? UrlHelper::siteUrl(ADMIN_PATH . '/' . strtolower($menu_item->getModuleName())) : "#";
+            $menu_item_dto = new MenuItemDTO($menu_item->getName(), $url);
             $menu_item_dto->setIcon($menu_item->getModuleIcon());
             if ($menu_item->getParent()) {
                 if (empty($result_children[$menu_item->getParent()->getId()])) {

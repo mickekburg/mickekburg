@@ -6,7 +6,6 @@ use Core\Framework\Helper\UrlHelper;
 use Module\Login\DTO\LoginDataDto;
 use Module\Login\Exception\WrongPasswordException;
 use Module\User\Entity\User;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class UserLoginService
