@@ -33,6 +33,9 @@ class AccessModule
     #[ORM\Column(type: Types::INTEGER, length: 255)]
     private int $sort;
 
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private string $module_icon;
+
     /**
      * @return string
      */
@@ -57,6 +60,14 @@ class AccessModule
     public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
     }
 
     /**
@@ -109,6 +120,22 @@ class AccessModule
     public function setSort(int $sort): void
     {
         $this->sort = $sort;
+    }
+
+    /**
+     * @return string
+     */
+    public function getModuleIcon(): string
+    {
+        return $this->module_icon;
+    }
+
+    /**
+     * @param string $module_icon
+     */
+    public function setModuleIcon(string $module_icon): void
+    {
+        $this->module_icon = $module_icon;
     }
 
 }

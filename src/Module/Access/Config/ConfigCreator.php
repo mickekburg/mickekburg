@@ -44,39 +44,49 @@ class ConfigCreator extends AbstractConfigFactory
 
         $translator = \Application::i()->getTranslator();
 
-        $module = new AccessModule();
-        $module->setName($translator->trans('admin.modules.structure'));
-        $module->setModuleName("");
-        $module->setParent(null);
-        $module->setSort(1);
-        $entities[] = $module;
+        $module_structure = new AccessModule();
+        $module_structure->setId(AccessModule::MENU_STRUCTURE);
+        $module_structure->setName($translator->trans('admin.modules.structure'));
+        $module_structure->setModuleName("");
+        $module_structure->setParent(null);
+        $module_structure->setSort(AccessModule::MENU_STRUCTURE);
+        $module_structure->setModuleIcon("fas fa-sitemap");
+        $entities[] = $module_structure;
 
-        $module = new AccessModule();
-        $module->setName($translator->trans('admin.modules.catalog'));
-        $module->setModuleName("");
-        $module->setParent(null);
-        $module->setSort(2);
-        $entities[] = $module;
+        $module_catalog = new AccessModule();
+        $module_structure->setId(AccessModule::MENU_CATALOG);
+        $module_catalog->setName($translator->trans('admin.modules.catalog'));
+        $module_catalog->setModuleName("");
+        $module_catalog->setParent(null);
+        $module_catalog->setSort(AccessModule::MENU_CATALOG);
+        $module_catalog->setModuleIcon("fas fa-list");
+        $entities[] = $module_catalog;
 
         $module_user = new AccessModule();
+        $module_structure->setId(AccessModule::MENU_USERS);
         $module_user->setName($translator->trans('admin.modules.users'));
         $module_user->setModuleName("User");
         $module_user->setParent(null);
-        $module_user->setSort(3);
+        $module_user->setSort(AccessModule::MENU_USERS);
+        $module_user->setModuleIcon("fas fa-users-cog");
         $entities[] = $module_user;
 
         $module_file = new AccessModule();
+        $module_structure->setId(AccessModule::MENU_FILES);
         $module_file->setName($translator->trans('admin.modules.files'));
         $module_file->setModuleName("File");
         $module_file->setParent(null);
-        $module_file->setSort(4);
+        $module_file->setSort(AccessModule::MENU_FILES);
+        $module_file->setModuleIcon("fas fa-file-export");
         $entities[] = $module_file;
 
         $module_setting = new AccessModule();
+        $module_structure->setId(AccessModule::MENU_SETTINGS);
         $module_setting->setName($translator->trans('admin.modules.settings'));
         $module_setting->setModuleName("Setting");
         $module_setting->setParent(null);
-        $module_setting->setSort(5);
+        $module_setting->setSort(AccessModule::MENU_SETTINGS);
+        $module_setting->setModuleIcon("fas fa-cogs");
         $entities[] = $module_setting;
 
         $this->initEntityManager();

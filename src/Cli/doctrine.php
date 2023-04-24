@@ -12,7 +12,6 @@ $connection = DBConnectionFactory::getDbConfig();
 $db_config = ORMSetup::createAttributeMetadataConfiguration(
     [
         APP_PATH."src/Module/User/Entity",
-        APP_PATH."src/Module/Access/Entity",
     ],
     ENVIRONMENT == 'development',
     null,

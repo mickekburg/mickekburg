@@ -39,7 +39,7 @@ abstract class AbstractConfigFactory
                 null,
                 false
             );
-            $this->entity_manager = EntityManager::create($connection, $db_config);
+            $this->entity_manager = new EntityManager($connection, $db_config);
         }
     }
 

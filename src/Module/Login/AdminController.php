@@ -102,7 +102,7 @@ class AdminController extends BaseAdminController
         return $this->template->render();
     }
 
-    public function actionExit()
+    public function actionExit(): RedirectResponse
     {
         return UserLoginService::logout();
     }

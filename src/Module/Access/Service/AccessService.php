@@ -87,16 +87,11 @@ final class AccessService
      */
     public function getUserAvailableMenu(): array
     {
-        print_r(self::$roles);
         $db = \Application::i()->getDbManager();
         $all_menu_items = $db->getRepository(AccessModule::class)->findBy([], ['parent' => 'ASC', 'sort' => 'ASC']);
         $result = [];
         foreach ($all_menu_items as $menu_item) {
-            if (!$menu_item->getModuleName()) {
-                $result[] = $menu_item;
-            } else {
-
-            }
+            $result[] = $menu_item;
         }
         return $result;
     }

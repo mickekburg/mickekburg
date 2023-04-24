@@ -1,7 +1,6 @@
 <?php
 
 use Config\DBConnectionFactory;
-use Core\Common\Factory\AbstractConfigFactory;
 use Core\Framework\Exception\Error404;
 use Core\Framework\Installer\DTO\InstallModuleDTO;
 use Core\Framework\Installer\Installer;
@@ -266,7 +265,7 @@ class Application
         }
     }
 
-    private function initUser()
+    private function initUser(): void
     {
         if (self::$session->get(UserLoginService::ADMIN_AUTH_USER_ID)) {
             self::$user = self::$db_manager->getRepository(User::class)->find(self::$session->get(UserLoginService::ADMIN_AUTH_USER_ID));

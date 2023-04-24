@@ -4,7 +4,10 @@ namespace Core\Framework\Controller;
 
 use Config\TemplateFactory;
 use Core\Framework\ModuleInfo\ModuleInfo;
+use Core\Framework\Template\Dictionary\TemplateRegionDictionary;
 use Core\Framework\Template\Template;
+use Core\Widget\AdminMenu\AdminMenuWidget;
+use Core\Widget\AdminMenu\Mapper\AdminMenuWidgetMapper;
 use Doctrine\ORM\EntityManager;
 use Module\Access\Entity\AccessModule;
 use Module\Access\Service\AccessService;
@@ -48,5 +51,7 @@ abstract class BaseAdminController
     private function loadLeftMenu(): void
     {
         $menu_items = AccessService::i()->getUserAvailableMenu();
+
+        $this->template->writeRegion(TemplateRegionDictionary::LEFT_MENU, (new AdminMenuWidget(AdminMenuWidgetMapper::mapAccessModule($menu_items)))->render());
     }
 }
