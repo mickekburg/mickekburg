@@ -5,13 +5,13 @@ namespace Module\Access\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
-use Module\Access\Repository\AccessModuleRoolRepository;
+use Module\Access\Repository\AccessModuleRoleRepository;
 use Module\User\Entity\User;
 use Module\User\Entity\UserGroup;
 
-#[ORM\Entity(repositoryClass: AccessModuleRoolRepository::class)]
-#[ORM\Table(name: "access_module_rool")]
-class AccessModuleRool
+#[ORM\Entity(repositoryClass: AccessModuleRoleRepository::class)]
+#[ORM\Table(name: "access_module_role")]
+class AccessModuleRole
 {
     public const DENY = 0;
     public const ALLOW = 1;
@@ -30,16 +30,16 @@ class AccessModuleRool
     #[ManyToOne(targetEntity: "AccessModule")]
     private AccessModule $module;
 
-    #[ORM\Column(type: Types::INTEGER, options: ["default" => AccessModuleRool::INHERIT])]
+    #[ORM\Column(type: Types::INTEGER, options: ["default" => AccessModuleRole::INHERIT])]
     private int $can_view;
 
-    #[ORM\Column(type: Types::INTEGER, options: ["default" => AccessModuleRool::INHERIT])]
+    #[ORM\Column(type: Types::INTEGER, options: ["default" => AccessModuleRole::INHERIT])]
     private int $can_edit;
 
-    #[ORM\Column(type: Types::INTEGER, options: ["default" => AccessModuleRool::INHERIT])]
+    #[ORM\Column(type: Types::INTEGER, options: ["default" => AccessModuleRole::INHERIT])]
     private int $can_add;
 
-    #[ORM\Column(type: Types::INTEGER, options: ["default" => AccessModuleRool::INHERIT])]
+    #[ORM\Column(type: Types::INTEGER, options: ["default" => AccessModuleRole::INHERIT])]
     private int $can_delete;
 
     /**

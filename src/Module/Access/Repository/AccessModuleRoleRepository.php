@@ -4,7 +4,7 @@ namespace Module\Access\Repository;
 
 use Core\Common\Repository\CommonRepository;
 
-class AccessModuleRoolRepository extends CommonRepository
+class AccessModuleRoleRepository extends CommonRepository
 {
 
 }

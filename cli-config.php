@@ -23,7 +23,7 @@ $db_config = ORMSetup::createAttributeMetadataConfiguration(
     null,
     false
 );
-$entityManager = EntityManager::create($connection, $db_config);
+$entityManager = new EntityManager($connection, $db_config);
 
 $migration_config = new PhpFile(__DIR__ . '/src/Cli/migrations.php');
 

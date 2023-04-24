@@ -138,7 +138,7 @@ class ConfigCreator extends AbstractConfigFactory
 
         $tabs[] = (new ModuleInfoTabDTO())
             ->setName('Права')
-            ->setAction('showRoolTab');
+            ->setAction('showRoleTab');
 
         $tds = [];
         $tds[] = (new ModuleTableTdDTO())

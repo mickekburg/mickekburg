@@ -8,7 +8,7 @@ use Core\Framework\ModuleInfo\DTO\ModuleInfoDTO;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 use Module\Access\Entity\AccessModule;
-use Module\Access\Entity\AccessModuleRool;
+use Module\Access\Entity\AccessModuleRole;
 use Module\User\Entity\UserGroup;
 
 class ConfigCreator extends AbstractConfigFactory
@@ -27,7 +27,7 @@ class ConfigCreator extends AbstractConfigFactory
 
     protected function getModuleClasses(): array
     {
-        return [AccessModule::class, AccessModuleRool::class];
+        return [AccessModule::class, AccessModuleRole::class];
     }
 
     protected function initEntityManagerPath(): array
@@ -82,7 +82,7 @@ class ConfigCreator extends AbstractConfigFactory
         $this->initEntityManager();
         $admin_group = $this->entity_manager->getRepository(UserGroup::class)->find(UserGroup::ADMIN_GROUP);
         foreach ([$module_user, $module_file, $module_setting] as $module) {
-            $module_access = new AccessModuleRool();
+            $module_access = new AccessModuleRole();
             $module_access->setModule($module);
             $module_access->setUserGroup($admin_group);
             $module_access->setCanDelete(true);

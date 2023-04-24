@@ -2,14 +2,14 @@
 
 namespace Module\Access\DTO;
 
-use Module\Access\Entity\AccessModuleRool;
+use Module\Access\Entity\AccessModuleRole;
 
 class AccessModuleDTO
 {
-    private int $can_add = AccessModuleRool::DENY;
-    private int $can_edit = AccessModuleRool::DENY;
-    private int $can_view = AccessModuleRool::DENY;
-    private int $can_delete = AccessModuleRool::DENY;
+    private int $can_add = AccessModuleRole::DENY;
+    private int $can_edit = AccessModuleRole::DENY;
+    private int $can_view = AccessModuleRole::DENY;
+    private int $can_delete = AccessModuleRole::DENY;
 
     public function __construct(int $can_add, int $can_edit, int $can_view, int $can_delete)
     {

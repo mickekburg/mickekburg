@@ -24,7 +24,7 @@
         "guzzlehttp/guzzle": "^7.4",
         "symfony/dependency-injection": "^6.1",
         "symfony/cache": "^6.1",
-        "doctrine/migrations": "^3.5",
+        "doctrine/migrations": "3.6.0",
         "doctrine/orm": "3.0.x-dev",
         "symfony/event-dispatcher": "^6.1",
         "symfony/config": "^6.1",

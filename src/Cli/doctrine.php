@@ -12,6 +12,7 @@ $connection = DBConnectionFactory::getDbConfig();
 $db_config = ORMSetup::createAttributeMetadataConfiguration(
     [
         APP_PATH."src/Module/User/Entity",
+        APP_PATH."src/Module/Access/Entity",
     ],
     ENVIRONMENT == 'development',
     null,
@@ -19,7 +20,7 @@ $db_config = ORMSetup::createAttributeMetadataConfiguration(
     false
 );
 try {
-    $entityManager = EntityManager::create($connection, $db_config);
+    $entityManager = new EntityManager($connection, $db_config);
 } catch (\Doctrine\DBAL\Exception $e) {
     exit("Cli dbal exception");
 } catch (\Doctrine\ORM\Exception\ManagerException $e) {

@@ -2,6 +2,7 @@
 
 namespace Module\User\Entity;
 
+use Core\Framework\Helper\PasswordHelper;
 use Core\Framework\Helper\StringHelper;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -105,7 +106,7 @@ class User
     public function setPassword(string $password): void
     {
         $this->password_salt = StringHelper::randomString();
-        $this->password = sha1($password . $this->password_salt);
+        $this->password = PasswordHelper:: generateSaltedPassword($password, $this->password_salt);
     }
 
     /**
@@ -158,10 +159,7 @@ class User
 
     public function checkPassword(string $password, bool $is_hashed): bool
     {
-        if ($is_hashed) {
-            return $password === $this->password;
-        }
-        return sha1($password . $this->password_salt) === $this->password;
+        return PasswordHelper::checkPassword($password, $this->password, $this->password_salt, $is_hashed);
     }
 
     /**

@@ -258,7 +258,7 @@ class Application
                 null,
                 false
             );
-            self::$db_manager = EntityManager::create($connection, $db_config);
+            self::$db_manager = new EntityManager($connection, $db_config);
         } catch (\Exception $exception) {
             exit("DBConnectionFactory config problem");
         } catch (\Doctrine\ORM\Exception\ManagerException $e) {
