@@ -12,12 +12,13 @@ class AdminMenuWidget extends \Core\Framework\TwigRenderer implements \Core\Fram
      * @var MenuItemDTO[]
      */
     private array $menu_items;
-
     private bool $is_superadmin;
+    private bool $has_superadmin_role;
 
-    public function __construct(array $menu_items, bool $is_superadmin)
+    public function __construct(array $menu_items, bool $is_superadmin, bool $has_superadmin_role)
     {
         $this->menu_items = $menu_items;
+        $this->has_superadmin_role = $has_superadmin_role;
         $this->is_superadmin = $is_superadmin;
     }
 
@@ -25,6 +26,7 @@ class AdminMenuWidget extends \Core\Framework\TwigRenderer implements \Core\Fram
     {
         return $this->renderTwig([
             'menu_items' => $this->menu_items,
+            'has_superadmin_role' => $this->has_superadmin_role,
             'is_superadmin' => $this->is_superadmin,
         ]);
     }

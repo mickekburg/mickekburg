@@ -1,27 +1,19 @@
 <?php
 
-namespace Module\Access\Entity;
+namespace Module\Test\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Module\Access\Repository\AccessModuleRoleRepository;
+use Module\Test\Repository\TestRepository;
 use Module\User\Entity\User;
 use Module\User\Entity\UserGroup;
 
-#[ORM\Entity(repositoryClass: AccessModuleRoleRepository::class)]
+#[ORM\Entity(repositoryClass: TestGroupRepository::class)]
 #[ORM\Table(name: "access_module_role")]
-class AccessModuleRole
+class TestGroup
 {
-    public const ACTION_ADD = 'can_add';
-    public const ACTION_EDIT = 'can_edit';
-    public const ACTION_VIEW = 'can_view';
-    public const ACTION_DELETE = 'can_delete';
-
-    public const DENY = 0;
-    public const ALLOW = 1;
-    public const INHERIT = 2;
-
     #[ORM\Column(type: Types::INTEGER)]
     #[ORM\Id, ORM\GeneratedValue(strategy: 'AUTO')]
     private int $id;

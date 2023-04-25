@@ -107,4 +107,20 @@ class AdminController extends BaseAdminController
         return UserLoginService::logout();
     }
 
+    public function actionToggleSuperadmin(): RedirectResponse
+    {
+        $previous = \Application::i()->getRequest()->headers->get('referer');
+        if (empty($previous)) {
+            $previous = UrlHelper::siteUrl(ADMIN_PATH);
+        }
+
+        if (\Application::i()->getUser()->getIsSuperadmin()) {
+            \Application::i()->getSession()->set(
+                UserLoginService::IS_SUPERADMIN_MODE, !\Application::i()->getSession()->get(UserLoginService::IS_SUPERADMIN_MODE, true)
+            );
+        }
+
+        return new RedirectResponse($previous);
+    }
+
 }

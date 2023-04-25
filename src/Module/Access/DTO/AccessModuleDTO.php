@@ -11,6 +11,21 @@ class AccessModuleDTO
     private int $can_view = AccessModuleRole::DENY;
     private int $can_delete = AccessModuleRole::DENY;
 
+    /**
+     * @param $key
+     * @return mixed
+     * @throws \Exception
+     */
+    public function __get($key)
+    {
+        if (in_array($key, [AccessModuleRole::ACTION_ADD, AccessModuleRole::ACTION_DELETE, AccessModuleRole::ACTION_EDIT, AccessModuleRole::ACTION_VIEW])) {
+            if (isset($this->{$key})) {
+                return $this->{$key};
+            }
+        }
+        throw new \Exception('Undefined object property ' . __CLASS__ . '::' . $key);
+    }
+
     public function __construct(int $can_add, int $can_edit, int $can_view, int $can_delete)
     {
         $this->can_add = $can_add;

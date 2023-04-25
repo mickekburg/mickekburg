@@ -91,9 +91,22 @@ final class AccessService
         $all_menu_items = $db->getRepository(AccessModule::class)->findBy([], ['parent' => 'ASC', 'sort' => 'ASC']);
         $result = [];
         foreach ($all_menu_items as $menu_item) {
-            $result[] = $menu_item;
+            if (
+                !$menu_item->getModuleName()
+                || (
+                    !empty(self::$roles[$menu_item->getModuleName()])
+                    && self::$roles[$menu_item->getModuleName()]->{AccessModuleRole::ACTION_VIEW}
+                )
+            ) {
+                $result[] = $menu_item;
+            }
         }
         return $result;
+    }
+
+    public function hasPermission(\Core\Framework\ModuleInfo\ModuleInfo $module, string $action): bool
+    {
+        return !empty(self::$roles[$module->getModuleName()]) && self::$roles[$module->getModuleName()]->{$action};
     }
 
 }

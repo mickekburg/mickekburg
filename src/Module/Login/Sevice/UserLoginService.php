@@ -15,6 +15,7 @@ class UserLoginService
     public const REMEMBER_LOGIN_COOKIE = 'remember_login';
     public const REMEMBER_PASSWORD_COOKIE = 'remember_password';
     public const ADMIN_AUTH_USER_ID = 'admin_auth_user_id';
+    public const IS_SUPERADMIN_MODE = 'is_superadmin_mode';
     private User $user;
 
     public function __construct(LoginDataDto $dto)
@@ -25,6 +26,7 @@ class UserLoginService
     public static function logout(): RedirectResponse
     {
         \Application::i()->getSession()->remove(self::ADMIN_AUTH_USER_ID);
+        \Application::i()->getSession()->remove(self::IS_SUPERADMIN_MODE);
         $response = new RedirectResponse(UrlHelper::siteUrl(ADMIN_PATH . '/' . LOGIN_PATH));
         $response->headers->clearCookie(self::REMEMBER_LOGIN_COOKIE);
         $response->headers->clearCookie(self::REMEMBER_PASSWORD_COOKIE);
@@ -55,6 +57,9 @@ class UserLoginService
     private function saveSession(User $user): void
     {
         \Application::i()->getSession()->set(self::ADMIN_AUTH_USER_ID, $user->getId());
+        if($user->getIsSuperadmin()){
+            \Application::i()->getSession()->set(self::IS_SUPERADMIN_MODE, true);
+        }
     }
 
     /**

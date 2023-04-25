@@ -3,6 +3,7 @@
 namespace Core\Framework\Controller;
 
 use Config\TemplateFactory;
+use Core\Framework\Helper\UrlHelper;
 use Core\Framework\ModuleInfo\ModuleInfo;
 use Core\Framework\Template\Dictionary\TemplateRegionDictionary;
 use Core\Framework\Template\Template;
@@ -13,8 +14,11 @@ use Core\Widget\AdminTopMenu\DTO\AdminTopMenuDTO;
 use Core\Widget\AdminUserInfo\AdminUserInfoWidget;
 use Core\Widget\AdminUserInfo\Mapper\AdminUserInfoWidgetMapper;
 use Doctrine\ORM\EntityManager;
+use Module\Access\Entity\AccessModuleRole;
 use Module\Access\Service\AccessService;
+use Module\Login\Sevice\UserLoginService;
 use Module\User\Entity\User;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Translation\Translator;
 
@@ -50,7 +54,20 @@ abstract class BaseAdminController
 
     public function actionIndex()
     {
+        return new RedirectResponse(UrlHelper::siteUrl(ADMIN_PATH . "/" . strtolower(\Application::i()->getCurrentModuleInfo()->getModuleName()) . "/show"));
+    }
 
+    public function actionShow(int $page_num = 1)
+    {
+        $this->initTemplate();
+        if (!AccessService::i()->hasPermission($this->module, AccessModuleRole::ACTION_VIEW)) {
+            return new RedirectResponse(
+                UrlHelper::siteUrl(ADMIN_PATH)
+            );
+        }
+        $this->template->writeRegion(TemplateRegionDictionary::META_TITLE, $this->translator->trans("admin." . $this->module->getModuleName() . ".meta_title"), true);
+        $this->template->writeRegion(TemplateRegionDictionary::CONTENT, $page_num);
+        return $this->template->render();
     }
 
     private function loadLeftMenu(): void
@@ -58,7 +75,10 @@ abstract class BaseAdminController
         $menu_items = AccessService::i()->getUserAvailableMenu();
 
         $this->template->writeRegion(TemplateRegionDictionary::LEFT_MENU, (
-        new AdminMenuWidget(AdminMenuWidgetMapper::mapAccessModule($menu_items), $this->user->getIsSuperadmin())
+        new AdminMenuWidget(
+            AdminMenuWidgetMapper::mapAccessModule($menu_items, $this->module->getModuleName()),
+            $this->session->get(UserLoginService::IS_SUPERADMIN_MODE, false),
+            $this->user->getIsSuperadmin())
         )->render()
         );
     }
