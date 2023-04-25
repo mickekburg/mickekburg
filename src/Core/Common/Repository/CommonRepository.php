@@ -5,7 +5,7 @@ namespace Core\Common\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
-class CommonRepository extends EntityRepository
+class CommonRepository extends EntityRepository implements ICommonRepository
 {
     public function getParents(int $item_id): array
     {

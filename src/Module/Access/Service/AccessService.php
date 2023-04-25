@@ -109,4 +109,12 @@ final class AccessService
         return !empty(self::$roles[$module->getModuleName()]) && self::$roles[$module->getModuleName()]->{$action};
     }
 
+    public function getModulePermissions(\Core\Framework\ModuleInfo\ModuleInfo $module): ?AccessModuleDTO
+    {
+        if (!empty(self::$roles[$module->getModuleName()])) {
+            return self::$roles[$module->getModuleName()];
+        }
+        return null;
+    }
+
 }

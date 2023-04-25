@@ -1,0 +1,178 @@
+<div class='title d-flex align-items-center'>
+    <div class='breadcrumbs mr30'>
+        <b class='mr10'>Путь:</b> <a href='#'>Категория 1</a> / <a href='#'>Категория 1</a> / <span>Категория 1</span>
+        <a href='#' target='_blank' title='Показать на сайте'><i class="fas fa-desktop"></i></a>
+    </div>
+    <div class='ml-auto'>
+        <a href='#' class='btn btn-gray mr20'><i class="fas fa-cog"></i></a>
+        <a href='#' class='btn btn-green'><i class="fas fa-plus-circle"></i> Добавить товар</a>
+    </div>
+</div>
+<div class='d-flex content-block'>
+    <div class='groups-block'>
+        {{ admin_group_tree | raw }}
+    </div>
+    <div class='items-block'>
+        <form action='#123' method='post' class='items-form'>
+            <table class='all-items'>
+                <thead>
+                <tr class='search-tr'>
+                    <th></th>
+                    <th>
+                        <div class='clear-filters mr5 pl5'>
+                            <a href='#'><i class="fas fa-eraser"></i></a>
+                        </div>
+                    </th>
+                    <th><input type='text' name='name' placeholder='Поиск: Наименование'></th>
+                    <th><input type='text' name='articul' placeholder='Поиск: Артикул'></th>
+                    <th><select name='state'>
+                            <option value='-1'>Все</option>
+                            <option value='1'>Какой-то</option>
+                        </select></th>
+                    <th></th>
+                    <th></th>
+                    <th>
+                        <div class='d-flex pager align-items-center ml-auto mr-auto'>
+                            <a href='#' class='page-left mr5'><i class="fas fa-angle-left"></i></a>
+                            <input type='text' name='page' value='1' onfocus="$(this).select()">
+                            <a href='#' class='page-right ml5'><i class="fas fa-angle-right"></i></a>
+                        </div>
+                    </th>
+                </tr>
+                <tr class='names-tr'>
+                    <th></th>
+                    <th>
+                        <div class='custom-chekbox'><input type='checkbox' id='items-toggle-all'><label
+                                    for='items-toggle-all'></label></div>
+                    </th>
+                    <th><a href='#' class='sorted-asc'>Наименование</a></th>
+                    <th><a href='#' class='sorted-desc'>Артикул</a></th>
+                    <th><a href='#'>Статус</a></th>
+                    <th><a href='#'>Порядок</a></th>
+                    <th>Показать</th>
+                    <th class='text-center'>Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><a href="#" class="move" title="Переместить"><i class="fas fa-arrows-alt-v"></i></a></td>
+                    <td>
+                        <div class='custom-chekbox'><input type='checkbox' id='items-1'><label for='items-1'></label>
+                        </div>
+                        <input type='hidden' name='ids[1]'>
+                    </td>
+                    <td><a href='#'>Acer Liquid E Ferrari S100</a></td>
+                    <td>123456</td>
+                    <td>Новый</td>
+                    <td class='input-td'><input type='text' value='123456' name='oreder[1]'></td>
+                    <td class='checkbox-td text-center'>
+                        <input type="checkbox" checked data-toggle="toggle" data-on="Да" data-off="Нет"
+                               data-onstyle="success" data-offstyle="danger" data-size="sm">
+                    </td>
+                    <td class='text-center'>
+                        <a href="#" class="edit mr10" title="Редактировать"><i class="fas fa-pencil-alt"></i></a>
+                        <a href="#" class="delete color-red confirm" data-confirm="Вы уверены, что хотите удалить?"
+                           title="Удалить"><i class="fas fa-times"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><a href="#" class="move" title="Переместить"><i class="fas fa-arrows-alt-v"></i></a></td>
+                    <td>
+                        <div class='custom-chekbox'><input type='checkbox' id='items-2'><label for='items-2'></label>
+                        </div>
+                        <input type='hidden' name='ids[1]'>
+                    </td>
+                    <td><a href='#'>Acer Liquid E Ferrari 222</a></td>
+                    <td>123456</td>
+                    <td>Новый</td>
+                    <td class='input-td'><input type='text' value='123456' name='oreder[1]'></td>
+                    <td class='checkbox-td text-center'>
+                        <input type="checkbox" checked data-toggle="toggle" data-on="Да" data-off="Нет"
+                               data-onstyle="success" data-offstyle="danger" data-size="sm">
+                    </td>
+                    <td class='text-center'>
+                        <a href="#" class="edit mr10" title="Редактировать"><i class="fas fa-pencil-alt"></i></a>
+                        <a href="#" class="delete color-red confirm" data-confirm="Вы уверены, что хотите удалить?"
+                           title="Удалить"><i class="fas fa-times"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><a href="#" class="move" title="Переместить"><i class="fas fa-arrows-alt-v"></i></a></td>
+                    <td>
+                        <div class='custom-chekbox'><input type='checkbox' id='items-3'><label for='items-3'></label>
+                        </div>
+                        <input type='hidden' name='ids[1]'>
+                    </td>
+                    <td><a href='#'>Acer Liquid E Ferrari 333</a></td>
+                    <td>123456</td>
+                    <td>Новый</td>
+                    <td class='input-td'><input type='text' value='123456' name='oreder[1]'></td>
+                    <td class='checkbox-td text-center'>
+                        <input type="checkbox" checked data-toggle="toggle" data-on="Да" data-off="Нет"
+                               data-onstyle="success" data-offstyle="danger" data-size="sm">
+                    </td>
+                    <td class='text-center'>
+                        <a href="#" class="edit mr10" title="Редактировать"><i class="fas fa-pencil-alt"></i></a>
+                        <a href="#" class="delete color-red confirm" data-confirm="Вы уверены, что хотите удалить?"
+                           title="Удалить"><i class="fas fa-times"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><a href="#" class="move" title="Переместить"><i class="fas fa-arrows-alt-v"></i></a></td>
+                    <td>
+                        <div class='custom-chekbox'><input type='checkbox' id='items-4'><label for='items-4'></label>
+                        </div>
+                        <input type='hidden' name='ids[1]'>
+                    </td>
+                    <td><a href='#'>Acer Liquid E Ferrari 444</a></td>
+                    <td>123456</td>
+                    <td>Новый</td>
+                    <td class='input-td'><input type='text' value='123456' name='oreder[1]'></td>
+                    <td class='checkbox-td text-center'>
+                        <input type="checkbox" checked data-toggle="toggle" data-on="Да" data-off="Нет"
+                               data-onstyle="success" data-offstyle="danger" data-size="sm">
+                    </td>
+                    <td class='text-center'>
+                        <a href="#" class="edit mr10" title="Редактировать"><i class="fas fa-pencil-alt"></i></a>
+                        <a href="#" class="delete color-red confirm" data-confirm="Вы уверены, что хотите удалить?"
+                           title="Удалить"><i class="fas fa-times"></i></a>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr class='search-tr'>
+                    <th colspan='5'>
+                        <div class='d-flex w-100'>
+                            <div class='pt5'>Выбранные:</div>
+                            <div class='ml10'>
+                                <select name='action'>
+                                    <option value='-1'>Ничего не делать</option>
+                                    <option value='move'>Переместить</option>
+                                    <option value='copy'>Скопировать</option>
+                                    <option value='delete'>Удалить</option>
+                                </select>
+                            </div>
+                            <div class='ml10'>
+                                <input type='submit' value='Отправить' class='btn btn-danger'>
+                            </div>
+                        </div>
+                    </th>
+                    <th colspan='2' class='text-center'>
+                        Показать: <input type='text' name='order' value='20' class='order-td'
+                                         onfocus="$(this).select()">
+                    </th>
+                    <th>
+                        <div class='d-flex pager align-items-center ml-auto mr-auto'>
+                            <a href='#' class='page-left mr5'><i class="fas fa-angle-left"></i></a>
+                            <input type='text' name='page' value='1' onfocus="$(this).select()">
+                            <a href='#' class='page-right ml5'><i class="fas fa-angle-right"></i></a>
+                        </div>
+                        <p class='text-center'>Страниц: 12</p>
+                    </th>
+                </tr>
+                </tfoot>
+            </table>
+            <input name='move_to' value='' type='hidden'>
+        </form>
+    </div>
+</div>

@@ -29,7 +29,6 @@ class ModuleInfo
         return null;
     }
 
-
     public function getModuleName(): string
     {
         return $this->dto->getModuleName();
@@ -40,6 +39,11 @@ class ModuleInfo
         if (!empty($locale) && file_exists(APP_PATH . "src/Module/" . $this->dto->getModuleName() . "/Language/translate." . $locale . '.yaml')) {
             $translator->addResource('yaml', APP_PATH . '/src/Module/' . $this->dto->getModuleName() . '/Language/translate.' . $locale . '.yaml', $locale);
         }
+    }
+
+    public function hasGroup(): bool
+    {
+        return $this->dto->getIsGroup();
     }
 
 }

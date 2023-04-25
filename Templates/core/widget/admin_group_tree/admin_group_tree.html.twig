@@ -1,0 +1,67 @@
+<div class='groups-block'>
+    <form class='search-block d-flex' action='#' method='post'>
+        <input type='text' name='search' placeholder='Поиск по категориям'>
+        <button><i class="fas fa-search"></i></button>
+    </form>
+    <div class='groups-actions d-flex '>
+        <div class='custom-chekbox mr5'><input type='checkbox' id='catalog-toggle-all'><label for='catalog-toggle-all'></label></div>
+        <a href='#' class='expand-all mr5' title='Развернуть все категории'><i class="fas fa-expand-arrows-alt"></i></a>
+        <a href='#' class='collapse-all mr5' title='Свернуть все категории'><i class="fas fa-compress-arrows-alt"></i></a>
+        <a href='#' class='show-all mr5 disabled' title='Скрыть/показать выделенные'><i class="fas fa-eye"></i></a>
+        <a href='#' class='delete-all mr5 disabled' title='Удалить выделенные'><i class="fas fa-trash-alt"></i></a>
+        <a href='#' class='btn btn-green ml-auto'><i class="fas fa-plus-circle"></i> Добавить категорию</a>
+    </div>
+    <script>
+        var catalogData = [
+            {
+                id: 1,
+                name: 'Название категории',
+                expand: false,
+                hidden: false,
+                is_show: true,
+            },
+            {
+                id: 2,
+                name: 'Название категории Название категории Название категории Название категории Название категории',
+                expand: true,
+                hidden: false,
+                is_show: true,
+                children: [
+                    {
+                        id: 3,
+                        name: 'Название категории 2',
+                        expand: true,
+                        hidden: false,
+                        is_show: true,
+                        children: [
+                            {
+                                id: 4,
+                                name: 'Название категории 3',
+                                expand: false,
+                                hidden: false,
+                                is_show: true,
+                            },
+                            {
+                                id: 5,
+                                name: 'Название категории 6',
+                                expand: true,
+                                hidden: false,
+                                active: true,
+                                is_show: true,
+                            },
+                        ],
+                    },
+                    {
+                        id: 6,
+                        name: 'Название категории 7',
+                        expand: false,
+                        hidden: true,
+                        is_show: true,
+                        needload: true,
+                    },
+                ],
+            },
+        ];
+    </script>
+    <ul class='catalog-list ui-sortable root treebody treesort' id='catalog-list' data-get_nodes='/treenodes.php'></ul>
+</div>
