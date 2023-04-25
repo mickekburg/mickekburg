@@ -1,0 +1,3 @@
+{% for top_menu_items in top_menu_item.getSubitems() %}
+    <li><a href='{{ top_menu_item.getHref() }}'>{{ top_menu_item.getTitle() }}</a></li>
+{% endfor %}

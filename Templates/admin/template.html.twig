@@ -13,31 +13,21 @@
     <header class='d-flex'>
         <a class='logo text-center fs24' href='{{ "/" | site_url(true) }}'>CRM</a>
         <div class='top-menu'>
-            <a href='#' class='active'>Навигация 1</a>
-            <a href='#'>Навигация 2</a>
-            <a href='#'>Навигация 3</a>
-            <a href='#'>Навигация 4</a>
-            <a href='#'>Навигация 5</a>
-            <a href='#'>Навигация 6</a>
-            <a href='#'>Навигация 7</a>
+            {{ top1 | raw }}
         </div>
-        <div class='user'>
-            <a href='#'><i class="fas fa-user mr10"></i> Фамилия Имя</a>
-        </div>
-        <div class='exit-me'>
-            <a href='#'><i class="fas fa-sign-out-alt fs24"></i></a>
-        </div>
+        {{ userInfo | raw}}
     </header>
 
     <aside class='left-side'>
         <div class="left-side-overlay"></div>
         {{ leftMenu | raw}}
-        <a href='#' class='hide-sidebar'><i class="fas fa-angle-left"></i></a>
+        <a href='{{ "/" | site_url(true) }}' class='hide-sidebar'><i class="fas fa-angle-left"></i></a>
         <div class='copyright'>&copy;2012-{{ 'now' | date('Y') }} <a href='#' target='blank' class='underline color-white ml10'>Документация</a></div>
     </aside>
 
     <div class='content'>
         <div class='main-page'>
+            {{ content | raw}}
         </div>
     </div>
 </body>

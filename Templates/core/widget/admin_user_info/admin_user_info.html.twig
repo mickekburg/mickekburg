@@ -1,0 +1,6 @@
+<div class='user'>
+    <a href='{{ "/user/profile" | site_url(true) }}'><i class="fas fa-user mr10"></i> {{ user_info.getThirdName() }} {{ user_info.getName() }}</a>
+</div>
+<div class='exit-me'>
+    <a href='{{ "/login/exit" | site_url(true) }}'><i class="fas fa-sign-out-alt fs24"></i></a>
+</div>

@@ -8,7 +8,7 @@ final class UrlHelper
 
     public static function siteUrl(string $url): string
     {
-        return self::baseUrl() . "/" . $url;
+        return self::baseUrl() . "/" . ltrim($url, '/');
     }
 
     public static function baseUrl(): string

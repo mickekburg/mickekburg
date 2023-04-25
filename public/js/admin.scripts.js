@@ -22,17 +22,14 @@ $(document).ready(function(){
 	});
 
 	$('.left-side .hide-sidebar').click(function(){
-		$.ajax({
-			url: "/admin/mains/toggleLeftBar",
-			type:   'POST',
-			data: {},
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-			success: function(result){
-				$('body').toggleClass('small-sidebar');
-			}
-		});
+		$('body').toggleClass('small-sidebar');
+		localStorage.setItem("is_small_sidebar", $('body').hasClass('small-sidebar'));
 		return false;
 	});
+
+	if(localStorage.getItem("is_small_sidebar") === "true"){
+		$('body').addClass('small-sidebar');
+	}
 
 	$(document).on('click', '.catalog-list .actions .vis', function(){
 		var isShowURL=$('#catalog-list').data('isshowurl');

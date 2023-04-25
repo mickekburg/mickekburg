@@ -68,6 +68,8 @@ final class TemplateFactory
                     TemplateRegionDictionary::CONTENT,
                     TemplateRegionDictionary::MODAL,
                     TemplateRegionDictionary::LEFT_MENU,
+                    TemplateRegionDictionary::USER_INFO,
+                    TemplateRegionDictionary::TOP1,
                 ]);
                 $template
                     ->addCSS("/css/bootstrap.css")
